@@ -1,0 +1,19 @@
+{
+  "name": "notehub",
+  "version": "1.0.0",
+  "description": "It is a Project Management and User Management Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Salmanul-Fariz/NoteHub-Backend.git"
+  },
+  "author": "Salmanul Fariz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Salmanul-Fariz/NoteHub-Backend/issues"
+  },
+  "homepage": "https://github.com/Salmanul-Fariz/NoteHub-Backend#readme"
+}
