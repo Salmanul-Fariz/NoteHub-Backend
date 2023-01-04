@@ -2,9 +2,10 @@
   "name": "notehub",
   "version": "1.0.0",
   "description": "It is a Project Management and User Management Application",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/main.js",
+    "dev": "NODE_ENV=dev nodemon src/main.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/Salmanul-Fariz/NoteHub-Backend/issues"
   },
-  "homepage": "https://github.com/Salmanul-Fariz/NoteHub-Backend#readme"
+  "homepage": "https://github.com/Salmanul-Fariz/NoteHub-Backend#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.2"
+  }
 }

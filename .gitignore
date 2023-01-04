@@ -1,0 +1,8 @@
+# node modules
+node_modules
+
+# Env File
+.env
+
+# Code Formating 
+.prettierrc
