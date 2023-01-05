@@ -4,13 +4,10 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: 'eslint:recommended',
+  extends: 'standard',
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
   },
-  rules: {
-    semi: ['error', 'always'],
-    quotes: ['error', 'single'],
-  },
+  rules: {},
 };
