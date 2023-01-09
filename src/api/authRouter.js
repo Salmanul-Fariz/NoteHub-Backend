@@ -24,9 +24,47 @@ router.get('/signup', (req, res) => {
 router.post('/signup', async (req, res, next) => {
   try {
     const { userName, email, password } = req.body;
+    let data;
 
-    // Create a new user
-    const data = await service.userSignup({ userName, email, password });
+    if (req.query.userNameExist) {
+      // Check username exist
+      data = await service.UsernameExist(req.query.userNameExist);
+    } else {
+      // Create a new user
+      data = await service.UserSignup(
+        { userName, email, password },
+        req.headers.host
+      );
+    }
+
+    return res.status(data.statusCode).json({
+      status: data.status,
+      data: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// Verification Email
+router.get('/verify', async (req, res) => {
+  try {
+    const token = req.query.token;
+    const data = await service.EmailValidation(token);
+
+    return res.status(data.statusCode).json({
+      status: data.status,
+      data: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// Check Email Verification completed
+router.post('/checkVerify', async (req, res) => {
+  try {
+    const data = await service.CheckVerifyMail(req.body.jwt);
 
     return res.status(data.statusCode).json({
       status: data.status,

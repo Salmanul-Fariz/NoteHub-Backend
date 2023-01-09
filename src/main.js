@@ -1,7 +1,5 @@
-// Require packages
 const express = require('express');
 
-// Require functions
 const { PORT } = require('./config');
 const { databaseConnection } = require('./database');
 const expressApp = require('./express-app');

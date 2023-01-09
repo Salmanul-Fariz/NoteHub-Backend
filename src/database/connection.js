@@ -1,7 +1,5 @@
-// Require packages
 const mongoose = require('mongoose');
 
-// Require functions
 const { DATABASE_URL } = require('../config');
 
 // Connect MogoDB using mongoose
