@@ -4,10 +4,12 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: 'standard',
+  extends: 'airbnb-base',
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
   },
-  rules: {},
+  rules: {
+    // enforceForClassFields: false,
+  },
 };

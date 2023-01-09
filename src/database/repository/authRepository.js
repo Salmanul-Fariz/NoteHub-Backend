@@ -9,7 +9,6 @@ const {
   emailVerification,
   verifyToken,
 } = require('../../utils/authSecurity');
-const { fail } = require('assert');
 
 // Dealing with database operations
 class AuthenticationRepository {
@@ -17,16 +16,16 @@ class AuthenticationRepository {
   async CreateUser(data, host) {
     try {
       // Check username is exist
-      const userExit = await UserModel.findOne({ 'user-name': data.userName });
+      this.userExit = await UserModel.findOne({ 'user-name': data.userName });
 
-      if (userExit) {
+      if (this.userExit) {
         return resDataFormat(200, 'Name-Error', 'Enter the unique user name');
       }
 
       // Check email is exist
-      const emailExit = await UserModel.findOne({ email: data.email });
+      this.emailExit = await UserModel.findOne({ email: data.email });
 
-      if (emailExit) {
+      if (this.emailExit) {
         return resDataFormat(200, 'Email-exist-Error', 'Email already exist');
       }
 
@@ -42,7 +41,7 @@ class AuthenticationRepository {
         password: userPassword,
       });
 
-      const token = await generateToken({ id: userCreated._id });
+      const token = await generateToken({ id: 'userCreated._id' });
 
       // Send Mail fot Verification
       emailVerification(userCreated.email, userCreated['email-token'], host);
@@ -50,52 +49,67 @@ class AuthenticationRepository {
       return resDataFormat(200, 'Success', { userCreated, token });
     } catch (err) {
       console.log(err);
+      return err;
     }
   }
 
   // Check user name userNameExist
   async UserNameExist(userName) {
-    const userNameExist = await UserModel.findOne({ 'user-name': userName });
+    try {
+      this.userNameExist = await UserModel.findOne({ 'user-name': userName });
 
-    if (userNameExist) return true;
+      if (this.userNameExist) return true;
 
-    return false;
+      return false;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
 
   // Check Email Verification
   async EmailVerification(token) {
-    const userNameExist = await UserModel.findOne({ 'email-token': token });
+    try {
+      this.userNameExist = await UserModel.findOne({ 'email-token': token });
 
-    if (userNameExist) {
-      await UserModel.updateOne({
-        'email-token': '',
-        verify: true,
-      });
-      return true;
+      if (this.userNameExist) {
+        await UserModel.updateOne({
+          'email-token': '',
+          verify: true,
+        });
+        return true;
+      }
+
+      return false;
+    } catch (err) {
+      console.log(err);
+      return err;
     }
-
-    return false;
   }
 
   // Verify Email Verification
   async VerifyMail(data) {
-    // let userId;
-    return verifyToken(data).then(async (response) => {
-      const userdata = await UserModel.findById(response.id);
-      if (userdata.verify) {
-        return 'Verify';
-      }
+    try {
+      return verifyToken(data).then(async (response) => {
+        this.userdata = await UserModel.findById(response.id);
+        if (this.userdata.verify) {
+          return 'Verify';
+        }
 
-      let expireTime = userdata.createdAt.getTime() + 120000;
-      let date = new Date();
-      let currentMs = date.getTime();
+        const expireTime = this.userdata.createdAt.getTime() + 120000;
+        const date = new Date();
+        const currentMs = date.getTime();
 
-      if (expireTime <= currentMs) {
-        await UserModel.remove({ id: data });
-        return 'Delete';
-      }
-      return 'NotVerify';
-    });
+        if (expireTime <= currentMs) {
+          await UserModel.remove({ id: data });
+          return 'Delete';
+        }
+        return 'NotVerify';
+      });
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
 }
 

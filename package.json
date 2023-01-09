@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Salmanul-Fariz/NoteHub-Backend#readme",
   "devDependencies": {
     "eslint": "^8.31.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "nodemon": "^2.0.20"
   },
   "dependencies": {

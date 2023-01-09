@@ -21,7 +21,7 @@ router.get('/signup', (req, res) => {
 });
 
 // Register user Signup
-router.post('/signup', async (req, res, next) => {
+router.post('/signup', async (req, res) => {
   try {
     const { userName, email, password } = req.body;
     let data;
@@ -31,10 +31,8 @@ router.post('/signup', async (req, res, next) => {
       data = await service.UsernameExist(req.query.userNameExist);
     } else {
       // Create a new user
-      data = await service.UserSignup(
-        { userName, email, password },
-        req.headers.host
-      );
+      const { host } = req.headers.host;
+      data = await service.UserSignup({ userName, email, password }, host);
     }
 
     return res.status(data.statusCode).json({
@@ -43,13 +41,14 @@ router.post('/signup', async (req, res, next) => {
     });
   } catch (err) {
     console.log(err);
+    return err;
   }
 });
 
 // Verification Email
 router.get('/verify', async (req, res) => {
   try {
-    const token = req.query.token;
+    const { token } = req.query.token;
     const data = await service.EmailValidation(token);
 
     return res.status(data.statusCode).json({
@@ -58,6 +57,7 @@ router.get('/verify', async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+    return err;
   }
 });
 
@@ -72,6 +72,7 @@ router.post('/checkVerify', async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+    return err;
   }
 });
 
