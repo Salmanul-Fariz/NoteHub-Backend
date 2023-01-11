@@ -19,4 +19,10 @@ router.get('/verify', service.EmailValidationGet);
 // Check Email Verification completed
 router.post('/checkVerify', service.CheckVerifyMailPost);
 
+// View Signin page
+router.get('/signin', service.UserSigninGet);
+
+// Signin user
+router.post('/signin', service.UserSigninPost);
+
 module.exports = router;

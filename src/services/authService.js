@@ -38,18 +38,18 @@ class AuthenticationService {
         // Check the values are null
         const nullCheck = nullValidation(userName, email, password);
         if (nullCheck) {
-          return resDataFormat(200, 'Field-Error', 'Please fill the fields');
+          data = resDataFormat(200, 'Field-Error', 'Please fill the fields');
         }
 
         // Email Validation
         const ckeckEmail = await emailValidator.validate(email);
         if (!ckeckEmail.valid) {
-          return resDataFormat(200, 'Email-Error', 'Please enter valid Mail');
+          data = resDataFormat(200, 'Email-Error', 'Please enter valid Mail');
         }
 
         // Password Validation
         if (password.length < 6) {
-          return resDataFormat(
+          data = resDataFormat(
             200,
             'Password-Error',
             'Please enter Strong Password'
@@ -58,7 +58,7 @@ class AuthenticationService {
 
         // User name Length checking
         if (userName.length < 4) {
-          return resDataFormat(
+          data = resDataFormat(
             200,
             'UserName-Error',
             'Please enter strong user name'
@@ -102,6 +102,7 @@ class AuthenticationService {
     }
   }
 
+  // Check Verified Mail
   async CheckVerifyMailPost(req, res) {
     try {
       const isVerified = await repository.VerifyMail(req.body.jwt);
@@ -109,6 +110,71 @@ class AuthenticationService {
       const data = resDataFormat(200, 'Success', isVerified);
 
       return res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // View user Signin page
+  async UserSigninGet(req, res) {
+    try {
+      res.status(200).json({
+        status: 'Success',
+        message: 'View Signin Page',
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Signin user
+  async UserSigninPost(req, res) {
+    try {
+      const { usernameOrEmail, password } = req.body;
+      let data;
+
+      // Check the values are null
+      const nullCheck = nullValidation(usernameOrEmail, password);
+      if (nullCheck) {
+        data = resDataFormat(200, 'Field-Error', 'Please fill the fields');
+      }
+
+      // Password Validation
+      if (password.length < 6) {
+        data = resDataFormat(
+          200,
+          'Password-Error',
+          'Please enter Strong Password'
+        );
+      }
+
+      // User name Length checking
+      if (usernameOrEmail.length < 4) {
+        data = resDataFormat(
+          200,
+          'UserNameOrEmail',
+          'Please enter strong user name'
+        );
+      }
+
+      // Check it is mail or username
+      const isEmail = await emailValidator.validate(usernameOrEmail);
+
+      if (isEmail.valid) {
+        data = await repository.SigninUser('email', {
+          usernameOrEmail,
+          password,
+        });
+      }
+
+      // if (!isEmail.valid) {
+      //   data = resDataFormat(200, 'userName', 'Please enter valid Mail');
+      // }
+
+      res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });

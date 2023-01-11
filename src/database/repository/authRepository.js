@@ -8,6 +8,7 @@ const {
   generateToken,
   emailVerification,
   verifyToken,
+  validatePassword,
 } = require('../../utils/authSecurity');
 
 // Dealing with database operations
@@ -109,6 +110,44 @@ class AuthenticationRepository {
     } catch (err) {
       console.log(err);
       return err;
+    }
+  }
+
+  // Signin a user
+  async SigninUser(type, data) {
+    try {
+      if (type === 'email') {
+        const isEmail = await UserModel.findOne({
+          email: data.usernameOrEmail,
+        }).select('+password');
+
+        if (!isEmail) {
+          return resDataFormat(
+            200,
+            'Username-Or-Email',
+            'Enter the Correct email or user name'
+          );
+        }
+
+        const isPassword = await validatePassword(
+          data.password,
+          isEmail.password
+        );
+
+        if (!isPassword) {
+          return resDataFormat(
+            200,
+            'Password-Error',
+            'Enter the Correct Password'
+          );
+        }
+
+        const token = await generateToken({ id: isEmail._id });
+
+        return resDataFormat(200, 'Success', { isEmail, token });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 }
