@@ -49,7 +49,7 @@ router.post('/signup', async (req, res) => {
 // Verification Email
 router.get('/verify', async (req, res) => {
   try {
-    const { token } = req.query.token;
+    const token = req.query.token;
     const data = await service.EmailValidation(token);
 
     return res.status(data.statusCode).json({
