@@ -1,9 +1,8 @@
-// Require packages
 const express = require('express');
 
-// Require functions
-const router = express.Router();
 const AuthenticationService = require('../services/authService');
+
+const router = express.Router();
 
 // Creating New Object
 const service = new AuthenticationService();
@@ -31,8 +30,10 @@ router.post('/signup', async (req, res) => {
       data = await service.UsernameExist(req.query.userNameExist);
     } else {
       // Create a new user
-      const { host } = req.headers.host;
-      data = await service.UserSignup({ userName, email, password }, host);
+      data = await service.UserSignup(
+        { userName, email, password },
+        req.headers.host
+      );
     }
 
     return res.status(data.statusCode).json({

@@ -1,8 +1,9 @@
 // Require functions
-const { AuthenticationRepository } = require('../database');
+const emailValidator = require('deep-email-validator');
+
+const AuthenticationRepository = require('../database/repository/authRepository');
 const { nullValidation } = require('../utils/dataValidation');
 const { resDataFormat } = require('../utils/formatData');
-const emailValidator = require('deep-email-validator');
 
 // All Business logic will be here
 class AuthenticationService {

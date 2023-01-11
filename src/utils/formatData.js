@@ -1,5 +1,5 @@
 // Response Data Format
-exports.resDataFormat = (statusCode, status, result) => {
+exports.resDataFormat = function (statusCode, status, result) {
   return {
     statusCode: statusCode,
     status: status,

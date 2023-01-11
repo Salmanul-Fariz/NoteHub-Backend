@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-const { UserModel } = require('../models');
+const UserModel = require('../models/userModel');
 const { resDataFormat } = require('../../utils/formatData');
 const {
   generateSalt,
@@ -16,16 +16,16 @@ class AuthenticationRepository {
   async CreateUser(data, host) {
     try {
       // Check username is exist
-      this.userExit = await UserModel.findOne({ 'user-name': data.userName });
+      const userExit = await UserModel.findOne({ 'user-name': data.userName });
 
-      if (this.userExit) {
+      if (userExit) {
         return resDataFormat(200, 'Name-Error', 'Enter the unique user name');
       }
 
       // Check email is exist
-      this.emailExit = await UserModel.findOne({ email: data.email });
+      const emailExit = await UserModel.findOne({ email: data.email });
 
-      if (this.emailExit) {
+      if (emailExit) {
         return resDataFormat(200, 'Email-exist-Error', 'Email already exist');
       }
 
@@ -56,9 +56,9 @@ class AuthenticationRepository {
   // Check user name userNameExist
   async UserNameExist(userName) {
     try {
-      this.userNameExist = await UserModel.findOne({ 'user-name': userName });
+      const userNameExist = await UserModel.findOne({ 'user-name': userName });
 
-      if (this.userNameExist) return true;
+      if (userNameExist) return true;
 
       return false;
     } catch (err) {
@@ -70,9 +70,9 @@ class AuthenticationRepository {
   // Check Email Verification
   async EmailVerification(token) {
     try {
-      this.userNameExist = await UserModel.findOne({ 'email-token': token });
+      const userNameExist = await UserModel.findOne({ 'email-token': token });
 
-      if (this.userNameExist) {
+      if (userNameExist) {
         await UserModel.updateOne({
           'email-token': '',
           verify: true,
@@ -91,12 +91,12 @@ class AuthenticationRepository {
   async VerifyMail(data) {
     try {
       return verifyToken(data).then(async (response) => {
-        this.userdata = await UserModel.findById(response.id);
-        if (this.userdata.verify) {
+        const userdata = await UserModel.findById(response.id);
+        if (userdata.verify) {
           return 'Verify';
         }
 
-        const expireTime = this.userdata.createdAt.getTime() + 120000;
+        const expireTime = userdata.createdAt.getTime() + 120000;
         const date = new Date();
         const currentMs = date.getTime();
 
