@@ -116,36 +116,43 @@ class AuthenticationRepository {
   // Signin a user
   async SigninUser(type, data) {
     try {
+      let isUserExist;
+
+      // Check is mail or username
       if (type === 'email') {
-        const isEmail = await UserModel.findOne({
+        isUserExist = await UserModel.findOne({
           email: data.usernameOrEmail,
         }).select('+password');
-
-        if (!isEmail) {
-          return resDataFormat(
-            200,
-            'Username-Or-Email',
-            'Enter the Correct email or user name'
-          );
-        }
-
-        const isPassword = await validatePassword(
-          data.password,
-          isEmail.password
-        );
-
-        if (!isPassword) {
-          return resDataFormat(
-            200,
-            'Password-Error',
-            'Enter the Correct Password'
-          );
-        }
-
-        const token = await generateToken({ id: isEmail._id });
-
-        return resDataFormat(200, 'Success', { isEmail, token });
+      } else {
+        isUserExist = await UserModel.findOne({
+          'user-name': data.usernameOrEmail,
+        }).select('+password');
       }
+
+      if (!isUserExist) {
+        return resDataFormat(
+          200,
+          'Username-Or-Email',
+          'Enter the Correct email or user name'
+        );
+      }
+
+      const isPassword = await validatePassword(
+        data.password,
+        isUserExist.password
+      );
+
+      if (!isPassword) {
+        return resDataFormat(
+          200,
+          'Password-Error',
+          'Enter the Correct Password'
+        );
+      }
+
+      const token = await generateToken({ id: isUserExist._id });
+
+      return resDataFormat(200, 'Success', { isUserExist, token });
     } catch (err) {
       console.log(err);
     }

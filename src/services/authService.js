@@ -168,11 +168,12 @@ class AuthenticationService {
           usernameOrEmail,
           password,
         });
+      } else {
+        data = await repository.SigninUser('username', {
+          usernameOrEmail,
+          password,
+        });
       }
-
-      // if (!isEmail.valid) {
-      //   data = resDataFormat(200, 'userName', 'Please enter valid Mail');
-      // }
 
       res.status(data.statusCode).json({
         status: data.status,
