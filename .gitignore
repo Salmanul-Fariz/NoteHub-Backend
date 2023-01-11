@@ -6,3 +6,4 @@ node_modules
 
 # Code Formating 
 .prettierrc
+.eslintrc.json
