@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 
-const authRouter = require('./api/authRouter');
-const userRouter = require('./api/userRouter');
+// user side
+const authRouter = require('./api/user/authRouter');
+const userRouter = require('./api/user/userRouter');
 
 module.exports = async (app) => {
   // Body parser, reading data from body into req.body
@@ -15,4 +16,5 @@ module.exports = async (app) => {
   // API's
   app.use('/api', userRouter);
   app.use('/api/auth', authRouter);
+  app.use('/api/admin', authRouter);
 };

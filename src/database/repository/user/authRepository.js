@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 
-const UserModel = require('../models/userModel');
-const { resDataFormat } = require('../../utils/formatData');
+const UserModel = require('../../models/userModel');
+const { resDataFormat } = require('../../../utils/formatData');
 const {
   generateSalt,
   generatePassword,
@@ -9,7 +9,7 @@ const {
   emailVerification,
   verifyToken,
   validatePassword,
-} = require('../../utils/authSecurity');
+} = require('../../../utils/authSecurity');
 
 // Dealing with database operations
 class AuthenticationRepository {

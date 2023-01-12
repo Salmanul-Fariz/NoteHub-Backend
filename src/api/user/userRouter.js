@@ -1,8 +1,8 @@
 // Require packages
 const express = require('express');
 
-const emailVerify = require('./middleware/emailVerify');
-const UserService = require('../services/userService');
+const emailVerify = require('../middleware/emailVerify');
+const UserService = require('../../services/user/userService');
 
 const router = express.Router();
 
