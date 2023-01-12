@@ -1,7 +1,10 @@
 const emailValidator = require('deep-email-validator');
 
 const AuthenticationRepository = require('../database/repository/authRepository');
-const { nullValidation } = require('../utils/dataValidation');
+const {
+  nullValidation,
+  userNameValidation,
+} = require('../utils/dataValidation');
 const { resDataFormat } = require('../utils/formatData');
 
 const repository = new AuthenticationRepository();
@@ -36,38 +39,40 @@ class AuthenticationService {
       } else {
         // Check the values are null
         const nullCheck = nullValidation(userName, email, password);
+        const ckeckEmail = await emailValidator.validate(email);
+        const isValid = userNameValidation(userName);
+
         if (nullCheck) {
           data = resDataFormat(200, 'Field-Error', 'Please fill the fields');
-        }
-
-        // Email Validation
-        const ckeckEmail = await emailValidator.validate(email);
-        if (!ckeckEmail.valid) {
+        } else if (!ckeckEmail.valid) {
+          // Email Validation
           data = resDataFormat(200, 'Email-Error', 'Please enter valid Mail');
-        }
-
-        // Password Validation
-        if (password.length < 6) {
+        } else if (password.length < 6) {
+          // Password Validation
           data = resDataFormat(
             200,
             'Password-Error',
             'Please enter Strong Password'
           );
-        }
-
-        // User name Length checking
-        if (userName.length < 4) {
+        } else if (!isValid) {
+          data = resDataFormat(
+            200,
+            'Username-no-Valid',
+            'Please enter Valid user ame'
+          );
+        } else if (userName.length < 4) {
+          // User name Length checking
           data = resDataFormat(
             200,
             'UserName-Error',
             'Please enter strong user name'
           );
+        } else {
+          data = await repository.CreateUser(
+            { userName, email, password },
+            req.headers.host
+          );
         }
-
-        data = await repository.CreateUser(
-          { userName, email, password },
-          req.headers.host
-        );
       }
 
       res.status(data.statusCode).json({
