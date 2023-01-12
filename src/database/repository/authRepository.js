@@ -42,6 +42,13 @@ class AuthenticationRepository {
         password: userPassword,
       });
 
+      setTimeout(async () => {
+        const user = await UserModel.findById(userCreated._id);
+        if (!user.verify) {
+          await UserModel.deleteOne({ id: userCreated._id });
+        }
+      }, 125000);
+
       const token = await generateToken({ id: userCreated._id });
 
       // Send Mail fot Verification
@@ -96,11 +103,15 @@ class AuthenticationRepository {
           return 'token-expired';
         }
         const userdata = await UserModel.findById(response.id);
+        if (!userdata) {
+          return 'Delete';
+        }
+
         if (userdata.verify) {
           return 'Verify';
         }
 
-        const expireTime = userdata.createdAt.getTime() + 1000;
+        const expireTime = userdata.createdAt.getTime() + 120000;
         const date = new Date();
         const currentMs = date.getTime();
 
