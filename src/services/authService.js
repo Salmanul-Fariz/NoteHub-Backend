@@ -36,7 +36,11 @@ class AuthenticationService {
           req.query.userNameExist
         );
 
-        data = resDataFormat(200, isUsername ? 'Fail' : 'Success', isUsername);
+        data = resDataFormat(
+          isUsername ? 400 : 200,
+          isUsername ? 'Fail' : 'Success',
+          isUsername
+        );
       } else {
         // Check the values are null
         const nullCheck = nullValidation(userName, email, password);
@@ -45,34 +49,34 @@ class AuthenticationService {
         const correctPattern = passwordValidation(password);
 
         if (nullCheck) {
-          data = resDataFormat(200, 'Field-Error', 'Please fill the fields');
+          data = resDataFormat(400, 'Field-Error', 'Please fill the fields');
         } else if (!ckeckEmail.valid) {
           // Email Validation
-          data = resDataFormat(200, 'Email-Error', 'Please enter valid Mail');
+          data = resDataFormat(400, 'Email-Error', 'Please enter valid Mail');
         } else if (password.length < 6) {
           // Password Validation
           data = resDataFormat(
-            200,
+            400,
             'Password-Error',
             'Please enter Strong Password'
           );
         } else if (!isValid) {
           data = resDataFormat(
-            200,
+            400,
             'Username-no-Valid',
             'Please enter Valid user ame'
           );
         } else if (userName.length < 4) {
           // User name Length checking
           data = resDataFormat(
-            200,
+            400,
             'UserName-Error',
             'Please enter strong user name'
           );
         } else if (!correctPattern) {
           // Password pattern
           data = resDataFormat(
-            200,
+            400,
             'Password-Error',
             'Must contain UpperCase,LowerCase,number,special character'
           );
@@ -101,9 +105,9 @@ class AuthenticationService {
       const isVerify = await repository.EmailVerification(token);
 
       const data = resDataFormat(
-        200,
+        isVerify ? 200 : 408,
         isVerify ? 'Success' : 'Failed',
-        isVerify ? 'verifyed' : 'Oops..!'
+        isVerify ? 'verifyed' : 'Time expired for a request'
       );
 
       return res.status(data.statusCode).json({
@@ -152,13 +156,13 @@ class AuthenticationService {
       // Check the values are null
       const nullCheck = nullValidation(usernameOrEmail, password);
       if (nullCheck) {
-        data = resDataFormat(200, 'Field-Error', 'Please fill the fields');
+        data = resDataFormat(400, 'Field-Error', 'Please fill the fields');
       }
 
       // Password Validation
       if (password.length < 6) {
         data = resDataFormat(
-          200,
+          400,
           'Password-Error',
           'Please enter Strong Password'
         );
@@ -167,7 +171,7 @@ class AuthenticationService {
       // User name Length checking
       if (usernameOrEmail.length < 4) {
         data = resDataFormat(
-          200,
+          400,
           'Username-Or-Email',
           'Please enter strong user name'
         );

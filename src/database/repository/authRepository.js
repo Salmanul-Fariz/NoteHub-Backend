@@ -20,14 +20,14 @@ class AuthenticationRepository {
       const userExit = await UserModel.findOne({ 'user-name': data.userName });
 
       if (userExit) {
-        return resDataFormat(200, 'Name-Error', 'Enter the unique user name');
+        return resDataFormat(400, 'Name-Error', 'Enter the unique user name');
       }
 
       // Check email is exist
       const emailExit = await UserModel.findOne({ email: data.email });
 
       if (emailExit) {
-        return resDataFormat(200, 'Email-exist-Error', 'Email already exist');
+        return resDataFormat(400, 'Email-exist-Error', 'Email already exist');
       }
 
       // create salt
@@ -44,8 +44,10 @@ class AuthenticationRepository {
 
       setTimeout(async () => {
         const user = await UserModel.findById(userCreated._id);
-        if (!user.verify) {
-          await UserModel.deleteOne({ id: userCreated._id });
+        if (user) {
+          if (user.verify === false) {
+            await UserModel.deleteOne({ id: userCreated._id });
+          }
         }
       }, 125000);
 
@@ -145,7 +147,7 @@ class AuthenticationRepository {
 
       if (!isUserExist) {
         return resDataFormat(
-          200,
+          400,
           'Username-Or-Email',
           'Enter the Correct email or user name'
         );
@@ -158,7 +160,7 @@ class AuthenticationRepository {
 
       if (!isPassword) {
         return resDataFormat(
-          200,
+          400,
           'Password-Error',
           'Enter the Correct Password'
         );
