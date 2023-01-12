@@ -4,6 +4,7 @@ const AuthenticationRepository = require('../database/repository/authRepository'
 const {
   nullValidation,
   userNameValidation,
+  passwordValidation,
 } = require('../utils/dataValidation');
 const { resDataFormat } = require('../utils/formatData');
 
@@ -41,6 +42,7 @@ class AuthenticationService {
         const nullCheck = nullValidation(userName, email, password);
         const ckeckEmail = await emailValidator.validate(email);
         const isValid = userNameValidation(userName);
+        const correctPattern = passwordValidation(password);
 
         if (nullCheck) {
           data = resDataFormat(200, 'Field-Error', 'Please fill the fields');
@@ -66,6 +68,13 @@ class AuthenticationService {
             200,
             'UserName-Error',
             'Please enter strong user name'
+          );
+        } else if (!correctPattern) {
+          // Password pattern
+          data = resDataFormat(
+            200,
+            'Password-Error',
+            'Must contain UpperCase,LowerCase,number,special character'
           );
         } else {
           data = await repository.CreateUser(

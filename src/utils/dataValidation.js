@@ -7,7 +7,7 @@ exports.nullValidation = (...datas) => {
   return false;
 };
 
-//
+// user name Validation
 exports.userNameValidation = (data) => {
   const output = [];
   for (let i = 0; i < data.length; i++) {
@@ -22,4 +22,19 @@ exports.userNameValidation = (data) => {
     return true;
   }
   return false;
+};
+
+exports.passwordValidation = (data) => {
+  if (!data) {
+    return false;
+  }
+  const hasUpperCase = /[A-Z]/.test(data);
+  const hasLowerCase = /[a-z]/.test(data);
+  const hasNumber = /\d/.test(data);
+  const hasSpecial = /[!@#%&]/.test(data);
+
+  if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecial) {
+    return false;
+  }
+  return true;
 };
