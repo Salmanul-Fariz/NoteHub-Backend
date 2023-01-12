@@ -68,7 +68,7 @@ class AuthenticationRepository {
     }
   }
 
-  // Check Email Verification
+  // Email Verification
   async EmailVerification(token) {
     try {
       const userNameExist = await UserModel.findOne({ 'email-token': token });
@@ -92,17 +92,20 @@ class AuthenticationRepository {
   async VerifyMail(data) {
     try {
       return verifyToken(data).then(async (response) => {
+        if (response === undefined) {
+          return 'token-expired';
+        }
         const userdata = await UserModel.findById(response.id);
         if (userdata.verify) {
           return 'Verify';
         }
 
-        const expireTime = userdata.createdAt.getTime() + 120000;
+        const expireTime = userdata.createdAt.getTime() + 1000;
         const date = new Date();
         const currentMs = date.getTime();
 
         if (expireTime <= currentMs) {
-          await UserModel.remove({ id: data });
+          await UserModel.deleteOne({ id: userdata._id });
           return 'Delete';
         }
         return 'NotVerify';

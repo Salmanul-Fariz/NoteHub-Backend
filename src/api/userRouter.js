@@ -1,13 +1,15 @@
 // Require packages
 const express = require('express');
 
-// Require functions
+const emailVerify = require('./middleware/emailVerify');
+const UserService = require('../services/userService');
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({
-    status: 'Success',
-  });
-});
+// Creating New Object
+const service = new UserService();
+
+// Home Page
+router.get('/', emailVerify, service.HomePage);
 
 module.exports = router;

@@ -33,7 +33,11 @@ module.exports.generateToken = async function (payload) {
 };
 
 module.exports.verifyToken = async function (token) {
-  return jwt.verify(token, JWT_SECRET_KEY);
+  try {
+    return jwt.verify(token, JWT_SECRET_KEY);
+  } catch (err) {
+    return undefined;
+  }
 };
 
 // Sending mail

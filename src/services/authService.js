@@ -1,4 +1,3 @@
-// Require functions
 const emailValidator = require('deep-email-validator');
 
 const AuthenticationRepository = require('../database/repository/authRepository');
@@ -80,7 +79,7 @@ class AuthenticationService {
     }
   }
 
-  // Verification of Email
+  // Verification of Email token
   async EmailValidationGet(req, res) {
     try {
       const token = req.query.token;
@@ -155,7 +154,7 @@ class AuthenticationService {
       if (usernameOrEmail.length < 4) {
         data = resDataFormat(
           200,
-          'UserNameOrEmail',
+          'Username-Or-Email',
           'Please enter strong user name'
         );
       }
