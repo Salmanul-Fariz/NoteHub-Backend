@@ -12,4 +12,7 @@ const service = new AdminService();
 // Home Page
 router.get('/', checkAdminSignin, service.Dashboard);
 
+// Sign in Post
+router.post('/auth/signin', service.SigninPost);
+
 module.exports = router;
