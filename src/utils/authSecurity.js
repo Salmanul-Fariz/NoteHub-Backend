@@ -32,6 +32,7 @@ module.exports.generateToken = async function (payload) {
   return await jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: JWT_EXPR_IN });
 };
 
+// Verify token
 module.exports.verifyToken = async function (token) {
   try {
     return jwt.verify(token, JWT_SECRET_KEY);
