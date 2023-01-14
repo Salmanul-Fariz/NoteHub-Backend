@@ -18,17 +18,28 @@ const UserSchema = new Schema(
     },
     'email-token': {
       type: String,
-      required: true,
+      default: null,
     },
     password: {
       type: String,
-      required: true,
       minlength: 6,
       select: false,
     },
     verify: {
       type: Boolean,
       default: false,
+    },
+    'google-auth': {
+      type: Boolean,
+      default: false,
+    },
+    'full-name': {
+      type: String,
+      default: null,
+    },
+    'profile-photo': {
+      type: String,
+      default: null,
     },
     'work-spaces': {
       'project-workspace': { type: Array, default: null },

@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { generateFromEmail } = require('unique-username-generator');
 
 const UserModel = require('../../models/userModel');
 const { resDataFormat } = require('../../../utils/formatData');
@@ -169,6 +170,58 @@ class AuthenticationRepository {
       const token = await generateToken({ id: isUserExist._id });
 
       return resDataFormat(200, 'Success', { isUserExist, token });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Ckeck user already Signin Google
+  async CheckSigninGoogle(email) {
+    try {
+      return await UserModel.findOne({ email: email });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Create accound for signin with Google
+  async RegisterGoogleAccount(userData) {
+    try {
+      let completed = false;
+      let username;
+      do {
+        username = generateFromEmail(userData.email, 3);
+        const isExisted = await UserModel.findOne({ 'user-name': username });
+        if (!isExisted) {
+          completed = true;
+        }
+      } while (!completed);
+
+      const userCreated = await UserModel.create({
+        'user-name': username,
+        'full-name': userData.name,
+        email: userData.email,
+        'profile-photo': userData.photoUrl,
+        'google-auth': true,
+        verify: true,
+      });
+      const token = await generateToken({ id: userCreated._id });
+
+      return resDataFormat(200, 'Success', { userCreated, token });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Check the user  details by Signin With google
+  async CheckUserDetails(email) {
+    try {
+      const user = await UserModel.findOne({
+        email: email,
+      });
+      const token = await generateToken({ id: user._id });
+
+      return resDataFormat(200, 'Success', { user, token });
     } catch (err) {
       console.log(err);
     }

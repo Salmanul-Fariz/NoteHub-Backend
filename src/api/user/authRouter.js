@@ -25,6 +25,7 @@ router.get('/signin', service.UserSigninGet);
 // Signin user
 router.post('/signin', service.UserSigninPost);
 
-// Google Signin request
+// Google Signin
+router.post('/google', service.SigninWithGoogle);
 
 module.exports = router;

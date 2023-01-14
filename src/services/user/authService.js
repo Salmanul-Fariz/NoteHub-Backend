@@ -200,6 +200,38 @@ class AuthenticationService {
       console.log(err);
     }
   }
+
+  // Signin With google
+  async SigninWithGoogle(req, res) {
+    try {
+      // check user already signin
+      const { name, email, photoUrl } = req.body;
+      const user = await repository.CheckSigninGoogle(email);
+      let data;
+      if (!user) {
+        data = await repository.RegisterGoogleAccount({
+          name,
+          email,
+          photoUrl,
+        });
+      } else if (user['google-auth'] === true) {
+        data = await repository.CheckUserDetails(email);
+      } else {
+        data = resDataFormat(
+          400,
+          'Email-Error',
+          'emailis already Used for another accound'
+        );
+      }
+
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = AuthenticationService;
