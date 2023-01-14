@@ -1,10 +1,6 @@
 const express = require('express');
-const passport = require('passport');
 
 const AuthenticationService = require('../../services/user/authService');
-const googleSigninConfig = require('../../utils/googleSigninConfig');
-
-googleSigninConfig();
 
 const router = express.Router();
 
@@ -29,12 +25,6 @@ router.get('/signin', service.UserSigninGet);
 // Signin user
 router.post('/signin', service.UserSigninPost);
 
-// Google Signin
-router.get(
-  '/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'],
-  })
-);
+// Google Signin request
 
 module.exports = router;
