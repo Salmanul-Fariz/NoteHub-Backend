@@ -1,6 +1,10 @@
 const express = require('express');
+const passport = require('passport');
 
 const AuthenticationService = require('../../services/user/authService');
+const googleSigninConfig = require('../../utils/googleSigninConfig');
+
+googleSigninConfig();
 
 const router = express.Router();
 
@@ -8,7 +12,7 @@ const router = express.Router();
 const service = new AuthenticationService();
 
 // View page of Signup
-router.get('/signup', service.UserSignupGet);
+router.get(service.UserSignupGet);
 
 // Register user Signup
 router.post('/signup', service.UserSignupPost);
@@ -24,5 +28,13 @@ router.get('/signin', service.UserSigninGet);
 
 // Signin user
 router.post('/signin', service.UserSigninPost);
+
+// Google Signin
+router.get(
+  '/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+  })
+);
 
 module.exports = router;
