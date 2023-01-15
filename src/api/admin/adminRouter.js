@@ -2,7 +2,7 @@
 const express = require('express');
 
 const AdminService = require('../../services/admin/adminService');
-const checkAdminSignin = require('../middleware/checkAdminSignin');
+const AdminAuthorization = require('../middleware/adminAuthorization');
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ const router = express.Router();
 const service = new AdminService();
 
 // Home Page
-router.get('/', checkAdminSignin, service.Dashboard);
+router.get('/', AdminAuthorization, service.Dashboard);
 
 // Sign in Post
 router.post('/auth/signin', service.SigninPost);

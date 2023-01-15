@@ -4,6 +4,7 @@ const cors = require('cors');
 // User Router
 const authRouter = require('./api/user/authRouter');
 const userRouter = require('./api/user/userRouter');
+const userWorspaceRouter = require('./api/user/userWorspaceRouter');
 
 // Admin Router
 const adminRouter = require('./api/admin/adminRouter');
@@ -20,7 +21,7 @@ module.exports = async (app) => {
   app.use('/api/admin', adminRouter);
 
   // User API's
+  app.use('/api/workspace/user-workspace', userWorspaceRouter);
   app.use('/api/auth', authRouter);
-  app.use('/api/admin', authRouter);
   app.use('/api', userRouter);
 };

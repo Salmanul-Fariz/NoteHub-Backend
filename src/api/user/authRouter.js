@@ -8,7 +8,7 @@ const router = express.Router();
 const service = new AuthenticationService();
 
 // View page of Signup
-router.get(service.UserSignupGet);
+router.get('/signup', service.UserSignupGet);
 
 // Register user Signup
 router.post('/signup', service.UserSignupPost);
