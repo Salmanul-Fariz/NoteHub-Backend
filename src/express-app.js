@@ -21,7 +21,7 @@ module.exports = async (app) => {
   app.use('/api/admin', adminRouter);
 
   // User API's
-  app.use('/api/workspace/user-workspace', userWorspaceRouter);
+  app.use('/api/workspaces/user-workspace', userWorspaceRouter);
   app.use('/api/auth', authRouter);
   app.use('/api', userRouter);
 };

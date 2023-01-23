@@ -43,15 +43,6 @@ class AuthenticationRepository {
         password: userPassword,
       });
 
-      setTimeout(async () => {
-        const user = await UserModel.findById(userCreated._id);
-        if (user) {
-          if (user.verify === false) {
-            await UserModel.deleteOne({ id: userCreated._id });
-          }
-        }
-      }, 125000);
-
       const token = await generateToken({ id: userCreated._id });
 
       // Send Mail fot Verification
@@ -84,10 +75,13 @@ class AuthenticationRepository {
       const userNameExist = await UserModel.findOne({ 'email-token': token });
 
       if (userNameExist) {
-        await UserModel.updateOne({
-          'email-token': '',
-          verify: true,
-        });
+        await UserModel.updateOne(
+          { _id: userNameExist._id },
+          {
+            'email-token': '',
+            verify: true,
+          }
+        );
         return true;
       }
 
@@ -119,7 +113,7 @@ class AuthenticationRepository {
         const currentMs = date.getTime();
 
         if (expireTime <= currentMs) {
-          await UserModel.deleteOne({ id: userdata._id });
+          await UserModel.deleteOne({ _id: userdata._id });
           return 'Delete';
         }
         return 'NotVerify';
