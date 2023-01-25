@@ -4,12 +4,13 @@ const { nullValidation } = require('../../utils/dataValidation');
 
 module.exports = (req, res, next) => {
   try {
-    if (nullValidation(req.query.token)) {
+    const token = req.headers.authorization.split(' ')[1];
+    if (nullValidation(token)) {
       res.status(408).json({
         status: 'No-tokens',
       });
     } else {
-      verifyToken(req.query.token).then(async (response) => {
+      verifyToken(token).then(async (response) => {
         if (response !== undefined) {
           const userData = await UserModel.findById(response.id);
           if (userData) {
