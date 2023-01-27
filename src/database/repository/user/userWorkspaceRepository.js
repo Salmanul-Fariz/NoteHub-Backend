@@ -34,6 +34,21 @@ class UserWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Update User workspace Name
+  async UpdateWorkspaceName(name, userId) {
+    try {
+      const { data } = name;
+      const userDetails = await userModel.updateOne(
+        { _id: userId },
+        { 'workSpaces.userWorkspace.name': data }
+      );
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceRepository;

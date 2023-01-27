@@ -30,6 +30,19 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // Update the workspace name
+  async UserWorkspaceNamePatch(req, res) {
+    try {
+      const data = await repository.UpdateWorkspaceName(req.body, req.user);
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;

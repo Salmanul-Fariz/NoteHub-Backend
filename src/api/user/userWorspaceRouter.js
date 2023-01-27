@@ -14,4 +14,7 @@ router.get('/', UserAuthorization, service.UserWorkspaceGet);
 // update workspace icon
 router.patch('/icon', UserAuthorization, service.UserWorkspaceIconPatch);
 
+// Update workspace name
+router.patch('/name', UserAuthorization, service.UserWorkspaceNamePatch);
+
 module.exports = router;
