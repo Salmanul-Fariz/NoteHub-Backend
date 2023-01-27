@@ -8,13 +8,17 @@ const router = express.Router();
 // Creating New Object
 const service = new UserWorkspaceService();
 
-// View User workspace
-router.get('/', UserAuthorization, service.UserWorkspaceGet);
-
 // update workspace icon
 router.patch('/icon', UserAuthorization, service.UserWorkspaceIconPatch);
 
 // Update workspace name
 router.patch('/name', UserAuthorization, service.UserWorkspaceNamePatch);
+
+// Create a user workspace
+// View User workspace
+router
+  .route('/')
+  .get(UserAuthorization, service.UserWorkspaceGet)
+  .post(UserAuthorization, service.UserWorkspacePost);
 
 module.exports = router;

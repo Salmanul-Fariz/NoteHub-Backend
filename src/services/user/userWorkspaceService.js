@@ -43,6 +43,19 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // Create a user workspace
+  async UserWorkspacePost(req, res) {
+    try {
+      const data = await repository.CreateUserWorkspace(req.user);
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;

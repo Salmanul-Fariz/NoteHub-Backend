@@ -15,16 +15,16 @@ const UserWorkspacePageSchema = new Schema(
     },
     icon: {
       type: String,
-      default: null,
+      default: 'page_with_curl',
     },
-    converImg: {
+    coverImg: {
       url: {
         type: String,
         default: null,
       },
       position: {
-        x: Number,
-        y: Number,
+        x: { type: Number, default: null },
+        y: { type: Number, default: null },
       },
     },
   },
@@ -33,4 +33,4 @@ const UserWorkspacePageSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model('admin', UserWorkspacePageSchema);
+module.exports = mongoose.model('user workspace page', UserWorkspacePageSchema);

@@ -46,7 +46,7 @@ class AuthenticationRepository {
       const token = await generateToken({ id: userCreated._id });
 
       // Send Mail fot Verification
-      emailVerification(userCreated.email, userCreated[emailToken], host);
+      emailVerification(userCreated.email, userCreated.emailToken, host);
 
       return resDataFormat(200, 'Success', { userCreated, token });
     } catch (err) {
