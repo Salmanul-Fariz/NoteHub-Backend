@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
-    'user-name': {
+    userName: {
       type: String,
       unique: true,
       minlength: 4,
@@ -16,7 +16,7 @@ const UserSchema = new Schema(
       lowercase: true,
       required: true,
     },
-    'email-token': {
+    emailToken: {
       type: String,
       default: null,
     },
@@ -29,21 +29,25 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    'google-auth': {
+    googleAuth: {
       type: Boolean,
       default: false,
     },
-    'full-name': {
+    fullName: {
       type: String,
       default: null,
     },
-    'profile-photo': {
+    profilePhoto: {
       type: String,
       default: null,
     },
-    'work-spaces': {
-      'project-workspace': { type: Array, default: null },
-      'user-workspace': { type: Array, default: null },
+    workSpaces: {
+      projectWorkspace: { type: Array, default: null },
+      userWorkspace: {
+        name: { type: String, default: 'My Book' },
+        icon: { type: String, default: 'closed_book' },
+        pages: [{ type: Schema.Types.ObjectId, default: null }],
+      },
     },
   },
   {

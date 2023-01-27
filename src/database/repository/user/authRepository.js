@@ -18,7 +18,7 @@ class AuthenticationRepository {
   async CreateUser(data, host) {
     try {
       // Check username is exist
-      const userExit = await UserModel.findOne({ 'user-name': data.userName });
+      const userExit = await UserModel.findOne({ userName: data.userName });
 
       if (userExit) {
         return resDataFormat(400, 'Name-Error', 'Enter the unique user name');
@@ -37,16 +37,16 @@ class AuthenticationRepository {
       const userPassword = await generatePassword(data.password, salt);
 
       const userCreated = await UserModel.create({
-        'user-name': data.userName,
+        userName: data.userName,
         email: data.email,
-        'email-token': crypto.randomBytes(64).toString('hex'),
+        emailToken: crypto.randomBytes(64).toString('hex'),
         password: userPassword,
       });
 
       const token = await generateToken({ id: userCreated._id });
 
       // Send Mail fot Verification
-      emailVerification(userCreated.email, userCreated['email-token'], host);
+      emailVerification(userCreated.email, userCreated[emailToken], host);
 
       return resDataFormat(200, 'Success', { userCreated, token });
     } catch (err) {
@@ -58,7 +58,7 @@ class AuthenticationRepository {
   // Check user name userNameExist
   async UserNameExist(userName) {
     try {
-      const userNameExist = await UserModel.findOne({ 'user-name': userName });
+      const userNameExist = await UserModel.findOne({ userName: userName });
 
       if (userNameExist) return true;
 
@@ -72,13 +72,13 @@ class AuthenticationRepository {
   // Email Verification
   async EmailVerification(token) {
     try {
-      const userNameExist = await UserModel.findOne({ 'email-token': token });
+      const userNameExist = await UserModel.findOne({ emailToken: token });
 
       if (userNameExist) {
         await UserModel.updateOne(
           { _id: userNameExist._id },
           {
-            'email-token': '',
+            emailToken: '',
             verify: true,
           }
         );
@@ -136,7 +136,7 @@ class AuthenticationRepository {
         }).select('+password');
       } else {
         isUserExist = await UserModel.findOne({
-          'user-name': data.usernameOrEmail,
+          userName: data.usernameOrEmail,
         }).select('+password');
       }
 
@@ -185,18 +185,18 @@ class AuthenticationRepository {
       let username;
       do {
         username = generateFromEmail(userData.email, 3);
-        const isExisted = await UserModel.findOne({ 'user-name': username });
+        const isExisted = await UserModel.findOne({ userName: username });
         if (!isExisted) {
           completed = true;
         }
       } while (!completed);
 
       const userCreated = await UserModel.create({
-        'user-name': username,
-        'full-name': userData.name,
+        userName: username,
+        fullName: userData.name,
         email: userData.email,
-        'profile-photo': userData.photoUrl,
-        'google-auth': true,
+        profilePhoto: userData.photoUrl,
+        googleAuth: true,
         verify: true,
       });
       const token = await generateToken({ id: userCreated._id });

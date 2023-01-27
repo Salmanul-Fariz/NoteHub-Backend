@@ -11,4 +11,7 @@ const service = new UserWorkspaceService();
 // View User workspace
 router.get('/', UserAuthorization, service.UserWorkspaceGet);
 
+// update workspace icon
+router.patch('/icon', UserAuthorization, service.UserWorkspaceIconPatch);
+
 module.exports = router;

@@ -10,7 +10,7 @@ class AdminRepository {
   async SigninAdmin(adminData) {
     try {
       const admin = await AdminModel.findOne({
-        'user-name': adminData.userName,
+        userName: adminData.userName,
       }).select('+password');
 
       if (!admin) {

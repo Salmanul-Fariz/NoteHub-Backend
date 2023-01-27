@@ -214,7 +214,7 @@ class AuthenticationService {
           email,
           photoUrl,
         });
-      } else if (user['google-auth'] === true) {
+      } else if (user[googleAuth] === true) {
         data = await repository.CheckUserDetails(email);
       } else {
         data = resDataFormat(

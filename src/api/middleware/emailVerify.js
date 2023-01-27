@@ -4,7 +4,12 @@ const nullValidation = require('../../utils/dataValidation').nullValidation;
 
 module.exports = function (req, res, next) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const auth = req.headers.authorization;
+    let token;
+    if (auth) {
+      token = auth.split(' ')[1];
+    }
+
     if (nullValidation(token)) {
       res.status(200).json({
         status: 'No-tokens',
