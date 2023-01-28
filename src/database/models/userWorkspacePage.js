@@ -23,9 +23,9 @@ const UserWorkspacePageSchema = new Schema(
         type: String,
         default: null,
       },
-      position: {
-        x: { type: Number, default: null },
-        y: { type: Number, default: null },
+      positionY: {
+        type: Number,
+        default: '0',
       },
     },
   },

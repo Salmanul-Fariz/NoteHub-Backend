@@ -107,6 +107,23 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // Update the workspace page cover image position
+  async UserWorkspaceCoverPositionPatch(req, res) {
+    try {
+      const { pageId, positionY } = req.body;
+      const data = await repository.UpdateWorkspaceCoverPosition({
+        pageId,
+        positionY,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;

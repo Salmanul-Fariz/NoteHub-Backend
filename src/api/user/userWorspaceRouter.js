@@ -35,6 +35,13 @@ router.patch(
   service.UserWorkspaceCoverImagePatch
 );
 
+// Update workspace Page cover Position
+router.patch(
+  '/cover-position',
+  UserAuthorization,
+  service.UserWorkspaceCoverPositionPatch
+);
+
 // Create a user workspace
 // View User workspace
 router
