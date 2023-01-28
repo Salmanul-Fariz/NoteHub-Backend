@@ -128,6 +128,28 @@ class UserWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Update User workspace Page cover image
+  async UpdateWorkspaceCoverImage(data) {
+    try {
+      const { imageUrl, pageId } = data;
+      const isNull = nullValidation(imageUrl, pageId);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageId },
+        { 'coverImg.url': imageUrl }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceRepository;

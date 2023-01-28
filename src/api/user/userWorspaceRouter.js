@@ -28,6 +28,13 @@ router.patch(
   service.UserWorkspacePageNamePatch
 );
 
+// Update workspace Page cover
+router.patch(
+  '/cover-image',
+  UserAuthorization,
+  service.UserWorkspaceCoverImagePatch
+);
+
 // Create a user workspace
 // View User workspace
 router
