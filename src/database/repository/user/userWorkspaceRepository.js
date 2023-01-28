@@ -1,3 +1,4 @@
+const { nullValidation } = require('../../../utils/dataValidation');
 const { resDataFormat } = require('../../../utils/formatData');
 const userModel = require('../../models/userModel');
 const userWorkspacePageModal = require('../../models/userWorkspacePage');
@@ -76,6 +77,28 @@ class UserWorkspaceRepository {
       if (err.name === 'CastError') {
         return resDataFormat(400, 'Fail', 'user not exist');
       }
+      console.log(err);
+    }
+  }
+
+  // Update User workspace Page icon
+  async UpdateWorkspacePageIcon(data) {
+    try {
+      const { iconName, pageId } = data;
+      const isNull = nullValidation(iconName, pageId);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageId },
+        { icon: iconName }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
       console.log(err);
     }
   }

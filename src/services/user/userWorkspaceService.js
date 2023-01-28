@@ -56,6 +56,23 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // Update the workspace page icon
+  async UserWorkspacePageIconPatch(req, res) {
+    try {
+      const { pageId, iconName } = req.body;
+      const data = await repository.UpdateWorkspacePageIcon({
+        pageId,
+        iconName,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;

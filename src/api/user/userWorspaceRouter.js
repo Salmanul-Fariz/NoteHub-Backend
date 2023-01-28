@@ -14,6 +14,13 @@ router.patch('/icon', UserAuthorization, service.UserWorkspaceIconPatch);
 // Update workspace name
 router.patch('/name', UserAuthorization, service.UserWorkspaceNamePatch);
 
+// Update workspace page icon
+router.patch(
+  '/page-icon',
+  UserAuthorization,
+  service.UserWorkspacePageIconPatch
+);
+
 // Create a user workspace
 // View User workspace
 router
