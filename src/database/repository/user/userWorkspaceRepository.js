@@ -102,6 +102,32 @@ class UserWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Update User workspace Page Name
+  async UpdateWorkspacePageName(data) {
+    try {
+      const { pageName, pageId } = data;
+      const isNull = nullValidation(pageName, pageId);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      if (pageName.length > 20) {
+        return resDataFormat(400, 'failed', 'Page maxLength is 20');
+      }
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageId },
+        { title: pageName }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceRepository;

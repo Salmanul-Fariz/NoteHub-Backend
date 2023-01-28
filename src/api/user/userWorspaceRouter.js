@@ -21,6 +21,13 @@ router.patch(
   service.UserWorkspacePageIconPatch
 );
 
+// Update workspace Page name
+router.patch(
+  '/page-name',
+  UserAuthorization,
+  service.UserWorkspacePageNamePatch
+);
+
 // Create a user workspace
 // View User workspace
 router

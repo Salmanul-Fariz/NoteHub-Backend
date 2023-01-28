@@ -73,6 +73,23 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // Update the workspace page name
+  async UserWorkspacePageNamePatch(req, res) {
+    try {
+      const { pageId, pageName } = req.body;
+      const data = await repository.UpdateWorkspacePageName({
+        pageId,
+        pageName,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;
