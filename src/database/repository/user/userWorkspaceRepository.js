@@ -60,6 +60,12 @@ class UserWorkspaceRepository {
     try {
       const details = await userWorkspacePageModal.create({
         userId: userId,
+        page: {
+          type: 'text',
+          typeName: null,
+          content: null,
+          childNode: [],
+        },
       });
 
       const pageId = details._id;

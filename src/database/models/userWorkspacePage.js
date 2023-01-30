@@ -28,6 +28,14 @@ const UserWorkspacePageSchema = new Schema(
         default: '0',
       },
     },
+    page: [
+      {
+        type: { type: String, default: 'text' },
+        typeName: { type: String, default: null },
+        content: { type: String, textdefaulttext: null },
+        childNode: [],
+      },
+    ],
   },
   {
     timestamps: true,
