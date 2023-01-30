@@ -8,6 +8,13 @@ const router = express.Router();
 // Creating New Object
 const service = new UserWorkspaceService();
 
+// Update workspace page type
+router.patch(
+  '/page/type',
+  UserAuthorization,
+  service.UserWorkspaceSecTypePatch
+);
+
 // update workspace icon
 router.patch('/icon', UserAuthorization, service.UserWorkspaceIconPatch);
 

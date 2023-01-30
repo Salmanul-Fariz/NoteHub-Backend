@@ -178,6 +178,28 @@ class UserWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Update User workspace Page type
+  async UpdateWorkspaceSecType(data) {
+    try {
+      const { pageId, pageSectionId, pageType } = data;
+      const isNull = nullValidation(pageSectionId, pageType, pageId);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageId, 'page._id': pageSectionId },
+        { 'page.$.type': pageType }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceRepository;
