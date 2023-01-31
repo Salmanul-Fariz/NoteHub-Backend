@@ -142,6 +142,24 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // Update the workspace Section content
+  async UserWorkspaceSecContentPatch(req, res) {
+    try {
+      const { pageId, pageSectionId, pageContent } = req.body;
+      const data = await repository.UpdateWorkspaceSecContent({
+        pageId,
+        pageSectionId,
+        pageContent,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;

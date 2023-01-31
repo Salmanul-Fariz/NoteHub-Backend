@@ -15,6 +15,13 @@ router.patch(
   service.UserWorkspaceSecTypePatch
 );
 
+// Update workspace page content
+router.patch(
+  '/page/content',
+  UserAuthorization,
+  service.UserWorkspaceSecContentPatch
+);
+
 // update workspace icon
 router.patch('/icon', UserAuthorization, service.UserWorkspaceIconPatch);
 

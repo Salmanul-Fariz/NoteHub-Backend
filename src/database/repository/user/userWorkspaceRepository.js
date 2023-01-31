@@ -62,7 +62,6 @@ class UserWorkspaceRepository {
         userId: userId,
         page: {
           type: 'text',
-          typeName: null,
           content: null,
           childNode: [],
         },
@@ -190,7 +189,29 @@ class UserWorkspaceRepository {
 
       await userWorkspacePageModal.updateOne(
         { _id: pageId, 'page._id': pageSectionId },
-        { 'page.$.type': pageType }
+        { 'page.$.type': pageType, 'page.$.content': null }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Update User workspace Page content
+  async UpdateWorkspaceSecContent(data) {
+    try {
+      const { pageId, pageSectionId, pageContent } = data;
+      const isNull = nullValidation(pageSectionId, pageId);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageId, 'page._id': pageSectionId },
+        { 'page.$.content': pageContent }
       );
 
       const userDetails = await userWorkspacePageModal.findById(pageId);

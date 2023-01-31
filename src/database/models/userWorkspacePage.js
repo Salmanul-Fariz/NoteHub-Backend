@@ -31,7 +31,6 @@ const UserWorkspacePageSchema = new Schema(
     page: [
       {
         type: { type: String, default: 'text' },
-        typeName: { type: String, default: null },
         content: { type: String, textdefaulttext: null },
         childNode: [],
       },
