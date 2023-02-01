@@ -193,13 +193,19 @@ class UserWorkspaceRepository {
         return resDataFormat(400, 'failed', 'Data not exist');
       }
 
+      // Tree setup
+      const tree = new Tree();
+      const pageDetails = await userWorkspacePageModal.findById(pageId);
+      tree.root = pageDetails.page;
+      tree._findAndUpdateType(pageType, pageSectionId, tree.root);
+
       await userWorkspacePageModal.updateOne(
-        { _id: pageId, 'page._id': pageSectionId },
-        { 'page.$.type': pageType, 'page.$.content': null }
+        { _id: pageDetails._id },
+        { page: tree.root }
       );
 
       const userDetails = await userWorkspacePageModal.findById(pageId);
-
+      console.log(userDetails);
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
       console.log(err);
@@ -229,39 +235,39 @@ class UserWorkspaceRepository {
   }
 
   // Add User workspace Page  Section
-  async UpdateWorkspaceSecAdd(data) {
-    try {
-      // const { pageId, pageSectionId } = data;
-      // const isNull = nullValidation(pageSectionId, pageId);
-      // if (isNull) {
-      //   return resDataFormat(400, 'failed', 'Data not exist');
-      // }
+  // async UpdateWorkspaceSecAdd(data) {
+  //   try {
+  //     // const { pageId, pageSectionId } = data;
+  //     // const isNull = nullValidation(pageSectionId, pageId);
+  //     // if (isNull) {
+  //     //   return resDataFormat(400, 'failed', 'Data not exist');
+  //     // }
 
-      // // await userWorkspacePageModal.updateOne(
-      // //   { _id: pageId, 'page._id': pageSectionId },
-      // //   { 'page.$.content': pageContent }
-      // // );
-      // const pageDetails = await userWorkspacePageModal.findById(pageId);
-      // const pageSecIndex = pageDetails.page.findIndex((val) => {
-      //   const splitObjId = String(val._id).split('"')[0];
-      //   return splitObjId === pageSectionId;
-      // });
+  //     // // await userWorkspacePageModal.updateOne(
+  //     // //   { _id: pageId, 'page._id': pageSectionId },
+  //     // //   { 'page.$.content': pageContent }
+  //     // // );
+  //     // const pageDetails = await userWorkspacePageModal.findById(pageId);
+  //     // const pageSecIndex = pageDetails.page.findIndex((val) => {
+  //     //   const splitObjId = String(val._id).split('"')[0];
+  //     //   return splitObjId === pageSectionId;
+  //     // });
 
-      // pageDetails.page.splice(pageSecIndex + 1, 0, {
-      //   type: 'text',
-      //   content: null,
-      //   childNode: [],
-      // });
-      // pageDetails.save();
-      // console.log(pageSecIndex);
+  //     // pageDetails.page.splice(pageSecIndex + 1, 0, {
+  //     //   type: 'text',
+  //     //   content: null,
+  //     //   childNode: [],
+  //     // });
+  //     // pageDetails.save();
+  //     // console.log(pageSecIndex);
 
-      // const userDetails = await userWorkspacePageModal.findById(pageId);
+  //     // const userDetails = await userWorkspacePageModal.findById(pageId);
 
-      return resDataFormat(200, 'Success');
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  //     return resDataFormat(200, 'Success');
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 }
 
 module.exports = UserWorkspaceRepository;

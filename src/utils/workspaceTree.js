@@ -5,6 +5,7 @@ module.exports = class WorkspaceTree {
     this.root = [];
   }
 
+  // Create a new ObjectId
   _createNewId() {
     return new ObjectId();
   }
@@ -12,8 +13,9 @@ module.exports = class WorkspaceTree {
   // Find the top node and add a section to down of the node
   _findTopNodeAndInsert(value, root, topNode) {
     const index = root.findIndex((el) => {
-      if (el._id === topNode) {
-        return el._id === topNode;
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === topNode) {
+        return splitObjId === topNode;
       }
       if (el.childNode.length > 0) {
         this._findTopNodeAndInsert(value, el.childNode, topNode);
@@ -28,8 +30,9 @@ module.exports = class WorkspaceTree {
   // Add a Section to a childNode of a parent
   _findParentAndInsert(value, root, parent) {
     const index = root.findIndex((el) => {
-      if (el._id === parent) {
-        return el._id === parent;
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === parent) {
+        return splitObjId === parent;
       }
       if (el.childNode.length > 0) {
         this._findParentAndInsert(value, el.childNode, parent);
@@ -49,8 +52,9 @@ module.exports = class WorkspaceTree {
   // Update the type of Section
   _findAndUpdateType(type, id, root) {
     const index = root.findIndex((el) => {
-      if (el._id === id) {
-        return el._id === id;
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === id) {
+        return splitObjId === id;
       }
       if (el.childNode.length > 0) {
         this._findAndUpdateType(type, id, el.childNode);
@@ -65,8 +69,9 @@ module.exports = class WorkspaceTree {
   // Update the content of Section
   _findAndUpdateContent(content, id, root) {
     const index = root.findIndex((el) => {
-      if (el._id === id) {
-        return el._id === id;
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === id) {
+        return splitObjId === id;
       }
       if (el.childNode.length > 0) {
         this._findAndUpdateContent(content, id, el.childNode);
@@ -82,11 +87,13 @@ module.exports = class WorkspaceTree {
   _deleteNode(id, root) {
     let childNodes;
     const index = root.findIndex((el) => {
-      if (el._id === id) {
+      const splitObjId = String(el._id).split('"')[0];
+
+      if (splitObjId === id) {
         if (el.childNode.length > 0) {
           childNodes = el.childNode;
         }
-        return el._id === id;
+        return splitObjId === id;
       }
       if (el.childNode.length > 0) {
         this._deleteNode(id, el.childNode);
