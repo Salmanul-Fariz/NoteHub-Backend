@@ -2,6 +2,7 @@ const { nullValidation } = require('../../../utils/dataValidation');
 const { resDataFormat } = require('../../../utils/formatData');
 const userModel = require('../../models/userModel');
 const userWorkspacePageModal = require('../../models/userWorkspacePage');
+const Tree = require('../../../utils/workspaceTree');
 
 class UserWorkspaceRepository {
   // Details of workspace
@@ -58,13 +59,18 @@ class UserWorkspaceRepository {
   // Create a user workspace
   async CreateUserWorkspace(userId) {
     try {
+      const tree = new Tree();
+
+      tree._insertFirstNode({
+        _id: tree._createNewId(),
+        type: 'text',
+        content: null,
+        childNode: [],
+      });
+
       const details = await userWorkspacePageModal.create({
         userId: userId,
-        page: {
-          type: 'text',
-          content: null,
-          childNode: [],
-        },
+        page: tree.root,
       });
 
       const pageId = details._id;

@@ -1,6 +1,12 @@
+const { ObjectId } = require('mongodb');
+
 module.exports = class WorkspaceTree {
   constructor() {
     this.root = [];
+  }
+
+  _createNewId() {
+    return new ObjectId();
   }
 
   // Find the top node and add a section to down of the node
