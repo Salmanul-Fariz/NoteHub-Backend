@@ -165,10 +165,14 @@ class UserWorkspaceService {
   async UserWorkspaceSecAddPatch(req, res) {
     try {
       const { pageId, pageSectionId } = req.body;
-      const data = await repository.UpdateWorkspaceSecAdd({
-        pageId,
-        pageSectionId,
-      });
+      const { type } = req.query;
+      const data = await repository.UpdateWorkspaceSecAdd(
+        {
+          pageId,
+          pageSectionId,
+        },
+        type
+      );
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
