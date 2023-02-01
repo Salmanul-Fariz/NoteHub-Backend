@@ -19,8 +19,8 @@ router.patch(
 // Add workspace page content new Section
 router
   .route('/page/content')
-  .patch(UserAuthorization, service.UserWorkspaceSecContentPatch);
-// .post(UserAuthorization, service.UserWorkspaceSecAddPatch);
+  .patch(UserAuthorization, service.UserWorkspaceSecContentPatch)
+  .post(UserAuthorization, service.UserWorkspaceSecAddPatch);
 
 // update workspace icon
 router.patch('/icon', UserAuthorization, service.UserWorkspaceIconPatch);

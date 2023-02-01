@@ -161,22 +161,22 @@ class UserWorkspaceService {
     }
   }
 
-  // // Add the workspace Section content
-  // async UserWorkspaceSecAddPatch(req, res) {
-  //   try {
-  //     const { pageId, pageSectionId } = req.body;
-  //     const data = await repository.UpdateWorkspaceSecAdd({
-  //       pageId,
-  //       pageSectionId,
-  //     });
-  //     res.status(data.statusCode).json({
-  //       status: data.status,
-  //       data: data.result,
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
+  // Add the workspace Section content
+  async UserWorkspaceSecAddPatch(req, res) {
+    try {
+      const { pageId, pageSectionId } = req.body;
+      const data = await repository.UpdateWorkspaceSecAdd({
+        pageId,
+        pageSectionId,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;
