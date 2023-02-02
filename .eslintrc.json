@@ -20,6 +20,7 @@
     "no-await-in-loop": "off",
     "no-unused-expressions": "off",
     "array-callback-return": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "no-restricted-syntax": "off"
   }
 }

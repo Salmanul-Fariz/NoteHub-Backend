@@ -2,6 +2,7 @@ const { ObjectId } = require('mongodb');
 
 module.exports = class WorkspaceTree {
   constructor() {
+    this.OrderArray = [];
     this.root = [];
   }
 
@@ -27,20 +28,38 @@ module.exports = class WorkspaceTree {
     }
   }
 
+  // Show the Node With level
+  _showAllNodeWithLevel(root, level) {
+    for (const data of root) {
+      const dataObj = {
+        level: level,
+        _id: data._id,
+        type: data.type,
+        content: data.content,
+      };
+      this.OrderArray.push(dataObj);
+      if (data.childNode.length > 0) {
+        const percentage = level.split('%')[0];
+        this._showAllNodeWithLevel(data.childNode, `${percentage - 5}%`);
+      }
+    }
+  }
+
   // Add a Section to a childNode of a parent
-  _findParentAndInsert(value, root, parent) {
+  _findParentAndInsert(root, child) {
     const index = root.findIndex((el) => {
       const splitObjId = String(el._id).split('"')[0];
-      if (splitObjId === parent) {
-        return splitObjId === parent;
+      if (splitObjId === child) {
+        return splitObjId === child;
       }
       if (el.childNode.length > 0) {
-        this._findParentAndInsert(value, el.childNode, parent);
+        this._findParentAndInsert(el.childNode, child);
       }
     });
 
-    if (index !== -1) {
-      root[index].childNode.push(value);
+    if (index !== -1 && index !== 0) {
+      root[index - 1].childNode.push(root[index]);
+      root.splice(index, 1);
     }
   }
 

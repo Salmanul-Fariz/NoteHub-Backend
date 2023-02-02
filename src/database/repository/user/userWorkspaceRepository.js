@@ -205,7 +205,6 @@ class UserWorkspaceRepository {
       );
 
       const userDetails = await userWorkspacePageModal.findById(pageId);
-      console.log(userDetails);
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
       console.log(err);
@@ -240,6 +239,50 @@ class UserWorkspaceRepository {
       const userDetails = await userWorkspacePageModal.findById(pageId);
 
       return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Add User workspace Page  Section
+  async UpdateWorkspaceSecAdd(data, query) {
+    try {
+      const { pageId, pageSectionId, pageContent, pageType } = data;
+      const isNull = nullValidation(pageSectionId, pageId, pageType);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      // Tree setup
+      const tree = new Tree();
+      const pageDetails = await userWorkspacePageModal.findById(pageId);
+      tree.root = pageDetails.page;
+
+      const value = {
+        _id: tree._createNewId(),
+        type: pageType,
+        content: pageContent,
+        childNode: [],
+      };
+
+      //  Check Whick insert
+      if (query === 'TopNodeInsert') {
+        tree._findTopNodeAndInsert(value, tree.root, pageSectionId);
+      } else if (query === 'ParentInsert') {
+        tree._findParentAndInsert(tree.root, pageSectionId);
+      }
+
+      //  update the data in mongodbd
+      await userWorkspacePageModal.updateOne(
+        { _id: pageDetails._id },
+        { page: tree.root }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
+      return resDataFormat(200, 'Success', {
+        data: userDetails,
+        id: value._id,
+      });
     } catch (err) {
       console.log(err);
     }

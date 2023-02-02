@@ -164,12 +164,14 @@ class UserWorkspaceService {
   // Add the workspace Section content
   async UserWorkspaceSecAddPatch(req, res) {
     try {
-      const { pageId, pageSectionId } = req.body;
+      const { pageId, pageSectionId, pageContent, pageType } = req.body;
       const { type } = req.query;
       const data = await repository.UpdateWorkspaceSecAdd(
         {
           pageId,
           pageSectionId,
+          pageContent,
+          pageType,
         },
         type
       );
