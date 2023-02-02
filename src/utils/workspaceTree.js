@@ -24,6 +24,10 @@ module.exports = class WorkspaceTree {
     });
 
     if (index !== -1) {
+      if (root[index].childNode.length > 0) {
+        value.childNode = root[index].childNode;
+        root[index].childNode = [];
+      }
       root.splice(index + 1, 0, value);
     }
   }
