@@ -106,6 +106,23 @@ module.exports = class WorkspaceTree {
     }
   }
 
+  // Update the Section toggle open option
+  _findAndUpdateToggleOption(option, id, root) {
+    const index = root.findIndex((el) => {
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === id) {
+        return splitObjId === id;
+      }
+      if (el.childNode.length > 0) {
+        this._findAndUpdateContent(option, id, el.childNode);
+      }
+    });
+
+    if (index !== -1) {
+      root[index].isToggle = option;
+    }
+  }
+
   // delete the Section
   _deleteNode(id, root) {
     let childNodes;
