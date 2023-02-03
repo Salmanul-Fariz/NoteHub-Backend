@@ -64,6 +64,7 @@ class UserWorkspaceRepository {
       tree._insertFirstNode({
         _id: tree._createNewId(),
         type: 'text',
+        isToggle: false,
         content: null,
         childNode: [],
       });
@@ -261,6 +262,7 @@ class UserWorkspaceRepository {
       const value = {
         _id: tree._createNewId(),
         type: pageType,
+        isToggle: false,
         content: pageContent,
         childNode: [],
       };
