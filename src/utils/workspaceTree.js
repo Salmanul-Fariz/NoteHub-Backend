@@ -49,6 +49,23 @@ module.exports = class WorkspaceTree {
     }
   }
 
+  // Find the top node and add new node
+  _findTopNodeAndInsertNewNode(value, root, topNode) {
+    const index = root.findIndex((el) => {
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === topNode) {
+        return splitObjId === topNode;
+      }
+      if (el.childNode.length > 0) {
+        this._findTopNodeAndInsert(value, el.childNode, topNode);
+      }
+    });
+
+    if (index !== -1) {
+      root.splice(index + 1, 0, value);
+    }
+  }
+
   // Add a Section to a childNode of a parent
   _findParentAndInsert(root, child) {
     const index = root.findIndex((el) => {
