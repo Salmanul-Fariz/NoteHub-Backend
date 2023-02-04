@@ -183,6 +183,24 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // Update the workspace Section toggle option
+  async UserWorkspaceSecToggleOptionPatch(req, res) {
+    try {
+      const { pageId, pageSectionId, isToggle } = req.body;
+      const data = await repository.UpdateWorkspaceSecToggleOption({
+        pageId,
+        pageSectionId,
+        isToggle,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;

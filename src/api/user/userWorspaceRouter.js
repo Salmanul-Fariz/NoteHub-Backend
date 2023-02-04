@@ -15,6 +15,13 @@ router.patch(
   service.UserWorkspaceSecTypePatch
 );
 
+// Update workspace Section toggle option
+router.patch(
+  '/page/toggle',
+  UserAuthorization,
+  service.UserWorkspaceSecToggleOptionPatch
+);
+
 // Update workspace page content
 // Add workspace page content new Section
 router

@@ -289,6 +289,39 @@ class UserWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Update User workspace Section toggle option
+  async UpdateWorkspaceSecToggleOption(data) {
+    try {
+      const { pageId, pageSectionId, isToggle } = data;
+      const isNull = nullValidation(pageSectionId, pageId);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      // Tree setup
+      const tree = new Tree();
+      const pageDetails = await userWorkspacePageModal.findById(pageId);
+      tree.root = pageDetails.page;
+      tree._findAndUpdateToggleOption(isToggle, pageSectionId, tree.root);
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageDetails._id },
+        { page: tree.root }
+      );
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageId, 'page._id': pageSectionId },
+        { 'page.$.content': isToggle }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceRepository;

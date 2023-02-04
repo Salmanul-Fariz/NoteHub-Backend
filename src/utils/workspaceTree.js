@@ -114,12 +114,25 @@ module.exports = class WorkspaceTree {
         return splitObjId === id;
       }
       if (el.childNode.length > 0) {
-        this._findAndUpdateContent(option, id, el.childNode);
+        this._findAndUpdateToggleOption(option, id, el.childNode);
       }
     });
 
     if (index !== -1) {
       root[index].isToggle = option;
+
+      if (option === false) {
+        this._falseAllChild(root[index].childNode, option);
+      }
+    }
+  }
+
+  _falseAllChild(array, bol) {
+    for (const val of array) {
+      val.isToggle = bol;
+      if (val.childNode.length > 0) {
+        this._falseAllChild(val.childNode, bol);
+      }
     }
   }
 
