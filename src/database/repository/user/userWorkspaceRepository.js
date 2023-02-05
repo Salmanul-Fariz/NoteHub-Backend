@@ -279,8 +279,9 @@ class UserWorkspaceRepository {
         tree._findNodeAndChangeToParentNode(tree.root, pageSectionId);
       } else if (query === 'RemoveNodeWithChild') {
         tree._removeNodeWithChild(tree.root, pageSectionId);
+      } else if (query === 'RemoveNodeWithOutChild') {
+        tree._removeNodeWithOutChild(tree.root, pageSectionId);
       }
-
       //  update the data in mongodbd
       await userWorkspacePageModal.updateOne(
         { _id: pageDetails._id },

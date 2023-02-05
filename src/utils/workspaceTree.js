@@ -173,8 +173,6 @@ module.exports = class WorkspaceTree {
 
       if (option === false) {
         this._falseAllChild(root[index].childNode, option);
-        // } else {
-        //   this._trueAllNonToggleChild(root[index].childNode, option);
       }
     }
   }
@@ -207,6 +205,33 @@ module.exports = class WorkspaceTree {
 
     if (index !== -1) {
       root.splice(index, 1);
+    }
+  }
+
+  // Remove a node without child
+  _removeNodeWithOutChild(root, id) {
+    const index = root.findIndex((el) => {
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === id) {
+        return splitObjId === id;
+      }
+      if (el.childNode.length > 0) {
+        this._removeNodeWithOutChild(el.childNode, id);
+      }
+    });
+
+    if (index !== -1) {
+      if (root[index].childNode.length > 0) {
+        const child = root[index].childNode;
+        let i = index;
+        root.splice(index, 1);
+        for (const value of child) {
+          root.splice(i, 0, value);
+          i++;
+        }
+      } else {
+        root.splice(index, 1);
+      }
     }
   }
 };
