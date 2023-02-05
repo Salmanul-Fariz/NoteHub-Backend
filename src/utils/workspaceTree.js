@@ -4,6 +4,8 @@ module.exports = class WorkspaceTree {
   constructor() {
     this.OrderArray = [];
     this.root = [];
+    this.isBackTrack = false;
+    this.isBackTrackValue = '';
   }
 
   // Create a new ObjectId
@@ -84,6 +86,32 @@ module.exports = class WorkspaceTree {
     }
   }
 
+  // Add child node to a node of a parent
+  _findNodeAndChangeToParentNode(root, nodeId) {
+    const index = root.findIndex((el) => {
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === nodeId) {
+        return splitObjId === nodeId;
+      }
+      if (el.childNode.length > 0) {
+        this._findNodeAndChangeToParentNode(el.childNode, nodeId);
+        if (this.isBackTrack) {
+          return this.isBackTrack;
+        }
+      }
+    });
+
+    if (index !== -1 && this.isBackTrack) {
+      root.splice(index + 1, 0, this.isBackTrackValue);
+      this.isBackTrackValue = '';
+      this.isBackTrack = false;
+    } else if (index !== -1 && !this.isBackTrack) {
+      this.isBackTrackValue = root[index];
+      root.splice(index, 1);
+      this.isBackTrack = true;
+    }
+  }
+
   //  insert a Section last of 1st level
   _insertFirstNode(value) {
     this.root.push(value);
@@ -142,20 +170,6 @@ module.exports = class WorkspaceTree {
         this._falseAllChild(root[index].childNode, option);
         // } else {
         //   this._trueAllNonToggleChild(root[index].childNode, option);
-      }
-    }
-  }
-
-  // Change all node to true
-  _trueAllNonToggleChild(array, bol) {
-    for (const val of array) {
-      if (val.type !== 'toggle') {
-        val.isToggle = bol;
-      }
-      if (val.childNode.length > 0) {
-        if (val.type !== 'toggle') {
-          this._trueAllNonToggleChild(val.childNode, bol);
-        }
       }
     }
   }
