@@ -57,7 +57,7 @@ module.exports = class WorkspaceTree {
         return splitObjId === topNode;
       }
       if (el.childNode.length > 0) {
-        this._findTopNodeAndInsert(value, el.childNode, topNode);
+        this._findTopNodeAndInsertNewNode(value, el.childNode, topNode);
       }
     });
 
@@ -140,15 +140,36 @@ module.exports = class WorkspaceTree {
 
       if (option === false) {
         this._falseAllChild(root[index].childNode, option);
+        // } else {
+        //   this._trueAllNonToggleChild(root[index].childNode, option);
       }
     }
   }
 
+  // Change all node to true
+  _trueAllNonToggleChild(array, bol) {
+    for (const val of array) {
+      if (val.type !== 'toggle') {
+        val.isToggle = bol;
+      }
+      if (val.childNode.length > 0) {
+        if (val.type !== 'toggle') {
+          this._trueAllNonToggleChild(val.childNode, bol);
+        }
+      }
+    }
+  }
+
+  // Change all node to false
   _falseAllChild(array, bol) {
     for (const val of array) {
-      val.isToggle = bol;
+      if (val.type === 'toggle') {
+        val.isToggle = bol;
+      }
       if (val.childNode.length > 0) {
-        this._falseAllChild(val.childNode, bol);
+        if (val.type === 'toggle') {
+          this._falseAllChild(val.childNode, bol);
+        }
       }
     }
   }
