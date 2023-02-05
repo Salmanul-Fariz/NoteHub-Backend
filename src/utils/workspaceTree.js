@@ -102,12 +102,17 @@ module.exports = class WorkspaceTree {
     });
 
     if (index !== -1 && this.isBackTrack) {
+      const childIndex = root[index].childNode.findIndex((el) => {
+        const splitObjId = String(el._id).split('"')[0];
+        return splitObjId === nodeId;
+      });
+      root[index].childNode.splice(childIndex, 1);
+
       root.splice(index + 1, 0, this.isBackTrackValue);
       this.isBackTrackValue = '';
       this.isBackTrack = false;
     } else if (index !== -1 && !this.isBackTrack) {
       this.isBackTrackValue = root[index];
-      root.splice(index, 1);
       this.isBackTrack = true;
     }
   }
