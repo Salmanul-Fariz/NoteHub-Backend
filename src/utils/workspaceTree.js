@@ -193,34 +193,20 @@ module.exports = class WorkspaceTree {
     }
   }
 
-  // delete the Section
-  _deleteNode(id, root) {
-    let childNodes;
+  // Remove a node with child
+  _removeNodeWithChild(root, id) {
     const index = root.findIndex((el) => {
       const splitObjId = String(el._id).split('"')[0];
-
       if (splitObjId === id) {
-        if (el.childNode.length > 0) {
-          childNodes = el.childNode;
-        }
         return splitObjId === id;
       }
       if (el.childNode.length > 0) {
-        this._deleteNode(id, el.childNode);
+        this._removeNodeWithChild(el.childNode, id);
       }
     });
 
     if (index !== -1) {
-      if (childNodes) {
-        root.splice(index, 1);
-        let arrIndex = index;
-        childNodes.forEach((el) => {
-          root.splice(arrIndex, 0, el);
-          arrIndex++;
-        });
-      } else {
-        root.splice(index, 1);
-      }
+      root.splice(index, 1);
     }
   }
 };

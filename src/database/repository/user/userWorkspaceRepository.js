@@ -277,6 +277,8 @@ class UserWorkspaceRepository {
         tree._findTopNodeAndInsertNewNode(value, tree.root, pageSectionId);
       } else if (query === 'NodeAndChangeToParentNode') {
         tree._findNodeAndChangeToParentNode(tree.root, pageSectionId);
+      } else if (query === 'RemoveNodeWithChild') {
+        tree._removeNodeWithChild(tree.root, pageSectionId);
       }
 
       //  update the data in mongodbd
