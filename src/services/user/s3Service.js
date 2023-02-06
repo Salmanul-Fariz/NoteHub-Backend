@@ -15,6 +15,20 @@ class S3Service {
       console.log(err);
     }
   }
+
+  // GenerateUrl for user workspace page section
+  async GenerateUrlPageSection(req, res) {
+    try {
+      const folderName = 'user-workspace-section';
+      const url = await generateS3Url(folderName);
+      res.status(200).json({
+        status: 'Success',
+        data: url,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = S3Service;

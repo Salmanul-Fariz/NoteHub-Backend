@@ -65,6 +65,7 @@ class UserWorkspaceRepository {
         _id: tree._createNewId(),
         type: 'text',
         isToggle: false,
+        imgPosition: null,
         content: null,
         childNode: [],
       });
@@ -263,17 +264,26 @@ class UserWorkspaceRepository {
         _id: tree._createNewId(),
         type: pageType,
         isToggle: false,
+        imgPosition: null,
         content: pageContent,
         childNode: [],
       };
 
       //  Check Whick insert
       if (query === 'TopNodeInsert') {
+        if (pageType === 'image') {
+          value.type = 'text';
+          value.content = null;
+        }
         tree._findTopNodeAndInsert(value, tree.root, pageSectionId);
       } else if (query === 'ParentInsert') {
         tree._findParentAndInsert(tree.root, pageSectionId);
       } else if (query === 'AddNewNodeWithTopNode') {
         value.content = null;
+        if (pageType === 'image') {
+          value.type = 'text';
+          value.content = null;
+        }
         tree._findTopNodeAndInsertNewNode(value, tree.root, pageSectionId);
       } else if (query === 'NodeAndChangeToParentNode') {
         tree._findNodeAndChangeToParentNode(tree.root, pageSectionId);
@@ -325,6 +335,60 @@ class UserWorkspaceRepository {
 
       const userDetails = await userWorkspacePageModal.findById(pageId);
 
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Update User workspace Page image Section type
+  async UpdateWorkspaceSecImageType(data) {
+    try {
+      const { pageId, pageSectionId, imageUrl } = data;
+      const isNull = nullValidation(pageSectionId, imageUrl, pageId);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      // Tree setup
+      const tree = new Tree();
+      const pageDetails = await userWorkspacePageModal.findById(pageId);
+      tree.root = pageDetails.page;
+      tree._findAndUpdateSecImage(imageUrl, pageSectionId, tree.root);
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageDetails._id },
+        { page: tree.root }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Update User workspace Page image Section Size
+  async UpdateWorkspaceSecImageSizeType(data) {
+    try {
+      const { pageId, pageSectionId, imgSize } = data;
+      const isNull = nullValidation(pageSectionId, imgSize, pageId);
+      if (isNull) {
+        return resDataFormat(400, 'failed', 'Data not exist');
+      }
+
+      // Tree setup
+      const tree = new Tree();
+      const pageDetails = await userWorkspacePageModal.findById(pageId);
+      tree.root = pageDetails.page;
+      tree._findAndUpdateSecImageSize(imgSize, pageSectionId, tree.root);
+
+      await userWorkspacePageModal.updateOne(
+        { _id: pageDetails._id },
+        { page: tree.root }
+      );
+
+      const userDetails = await userWorkspacePageModal.findById(pageId);
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
       console.log(err);

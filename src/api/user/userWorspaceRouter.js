@@ -22,6 +22,13 @@ router.patch(
   service.UserWorkspaceSecToggleOptionPatch
 );
 
+// upload image in a section
+// update image in a section
+router
+  .route('/page/section-image')
+  .post(UserAuthorization, service.UserWorkspaceSecImagePost)
+  .patch(UserAuthorization, service.UserWorkspaceSecImageSizePatch);
+
 // Update workspace page content
 // Add workspace page content new Section
 router

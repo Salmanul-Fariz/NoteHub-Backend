@@ -201,6 +201,42 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // upload image in a user workspace section
+  async UserWorkspaceSecImagePost(req, res) {
+    try {
+      const { pageId, pageSectionId, imageUrl } = req.body;
+      const data = await repository.UpdateWorkspaceSecImageType({
+        pageId,
+        pageSectionId,
+        imageUrl,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // update image in a user workspace section size
+  async UserWorkspaceSecImageSizePatch(req, res) {
+    try {
+      const { pageId, pageSectionId, imgSize } = req.body;
+      const data = await repository.UpdateWorkspaceSecImageSizeType({
+        pageId,
+        pageSectionId,
+        imgSize,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;

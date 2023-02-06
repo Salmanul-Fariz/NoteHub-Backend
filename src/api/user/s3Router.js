@@ -16,4 +16,11 @@ router.get(
   service.GenerateUrlPageCover
 );
 
+// GenerateUrl for user workspace page option
+router.get(
+  '/page-section/generate-url',
+  UserAuthorization,
+  service.GenerateUrlPageSection
+);
+
 module.exports = router;

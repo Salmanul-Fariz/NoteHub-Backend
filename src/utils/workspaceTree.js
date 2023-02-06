@@ -234,4 +234,40 @@ module.exports = class WorkspaceTree {
       }
     }
   }
+
+  // Update the node While image upload
+  _findAndUpdateSecImage(imageUrl, id, root) {
+    const index = root.findIndex((el) => {
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === id) {
+        return splitObjId === id;
+      }
+      if (el.childNode.length > 0) {
+        this._findAndUpdateSecImage(imageUrl, id, el.childNode);
+      }
+    });
+
+    if (index !== -1) {
+      root[index].content = imageUrl;
+      root[index].type = 'image';
+      root[index].imgPosition = 'auto';
+    }
+  }
+
+  // Update the image size
+  _findAndUpdateSecImageSize(imgSize, id, root) {
+    const index = root.findIndex((el) => {
+      const splitObjId = String(el._id).split('"')[0];
+      if (splitObjId === id) {
+        return splitObjId === id;
+      }
+      if (el.childNode.length > 0) {
+        this._findAndUpdateSecImageSize(imgSize, id, el.childNode);
+      }
+    });
+
+    if (index !== -1) {
+      root[index].imgPosition = imgSize;
+    }
+  }
 };
