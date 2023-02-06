@@ -70,9 +70,27 @@ class UserWorkspaceRepository {
         childNode: [],
       });
 
+      // Checking name is already existed
+      let index = 0;
+      let titleName = 'Untitled';
+      let isNotValue;
+      do {
+        const page = await userWorkspacePageModal.findOne({
+          title: titleName,
+        });
+
+        if (!page) {
+          isNotValue = true;
+        } else {
+          titleName = `Untitled${index}`;
+          index++;
+        }
+      } while (!isNotValue);
+
       const details = await userWorkspacePageModal.create({
         userId: userId,
         page: tree.root,
+        title: titleName,
       });
 
       const pageId = details._id;
@@ -129,9 +147,26 @@ class UserWorkspaceRepository {
         return resDataFormat(400, 'failed', 'Page maxLength is 20');
       }
 
+      // Checking name is already existed
+      let index = 0;
+      let titleName = pageName;
+      let isNotValue;
+      do {
+        const page = await userWorkspacePageModal.findOne({
+          title: titleName,
+        });
+
+        if (!page) {
+          isNotValue = true;
+        } else {
+          titleName = `${pageName}${index}`;
+          index++;
+        }
+      } while (!isNotValue);
+
       await userWorkspacePageModal.updateOne(
         { _id: pageId },
-        { title: pageName }
+        { title: titleName }
       );
 
       const userDetails = await userWorkspacePageModal.findById(pageId);

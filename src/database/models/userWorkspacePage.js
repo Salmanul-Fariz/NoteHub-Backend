@@ -11,7 +11,6 @@ const UserWorkspacePageSchema = new Schema(
     },
     title: {
       type: String,
-      default: 'Untitled',
       maxLength: 20,
     },
     icon: {
