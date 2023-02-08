@@ -71,10 +71,12 @@ router.patch(
 );
 
 // Create a user workspace
+// Delete a user workspace page
 // View User workspace
 router
   .route('/')
   .get(UserAuthorization, service.UserWorkspaceGet)
-  .post(UserAuthorization, service.UserWorkspacePost);
+  .post(UserAuthorization, service.UserWorkspacePost)
+  .delete(UserAuthorization, service.UserWorkspacePageDelete);
 
 module.exports = router;

@@ -1,3 +1,5 @@
+const { mongoose } = require('mongoose');
+
 const { nullValidation } = require('../../../utils/dataValidation');
 const { resDataFormat } = require('../../../utils/formatData');
 const userModel = require('../../models/userModel');
@@ -426,6 +428,33 @@ class UserWorkspaceRepository {
       const userDetails = await userWorkspacePageModal.findById(pageId);
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Delete a user workspace page
+  async DeleteUserWorkspacePage(data) {
+    try {
+      const { user, pageId } = data;
+
+      // // Checking name is already existet
+      const userPull = await userModel.updateOne(
+        { _id: user },
+        {
+          $pull: {
+            'workSpaces.userWorkspace.pages': mongoose.Types.ObjectId(pageId),
+          },
+        }
+      );
+      if (userPull.modifiedCount === 1) {
+        await userWorkspacePageModal.deleteOne({ _id: pageId });
+      }
+
+      return resDataFormat(200, 'Success', 'Deleted page');
+    } catch (err) {
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
       console.log(err);
     }
   }

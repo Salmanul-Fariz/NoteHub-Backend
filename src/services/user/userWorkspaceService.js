@@ -237,6 +237,23 @@ class UserWorkspaceService {
       console.log(err);
     }
   }
+
+  // Delete a user workspace page
+  async UserWorkspacePageDelete(req, res) {
+    try {
+      const { pageId } = req.query;
+      const data = await repository.DeleteUserWorkspacePage({
+        user: req.user,
+        pageId,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserWorkspaceService;
