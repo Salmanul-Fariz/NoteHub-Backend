@@ -42,7 +42,10 @@ const UserSchema = new Schema(
       default: null,
     },
     workSpaces: {
-      projectWorkspace: { type: Array, default: null },
+      projectWorkspace: {
+        name: { type: String, default: 'My Space' },
+        boards: [{ type: Schema.Types.ObjectId, default: null }],
+      },
       userWorkspace: {
         name: { type: String, default: 'My Book' },
         icon: { type: String, default: 'closed_book' },

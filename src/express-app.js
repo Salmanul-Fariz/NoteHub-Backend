@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRouter = require('./api/user/authRouter');
 const userRouter = require('./api/user/userRouter');
 const userWorspaceRouter = require('./api/user/userWorspaceRouter');
+const projectWorkspaceRouter = require('./api/user/projectWorkspaceRouter');
 const s3Router = require('./api/user/s3Router');
 
 // Admin Router
@@ -23,6 +24,7 @@ module.exports = async (app) => {
 
   // User API's
   app.use('/api/workspaces/user-workspace', userWorspaceRouter);
+  app.use('/api/workspaces/project-workspace', projectWorkspaceRouter);
   app.use('/api/auth', authRouter);
   app.use('/api/s3', s3Router);
   app.use('/api', userRouter);
