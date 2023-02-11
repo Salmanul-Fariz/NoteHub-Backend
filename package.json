@@ -4,7 +4,7 @@
   "description": "It is a Project Management and User Management Application",
   "main": "main.js",
   "scripts": {
-    "start": "nodemon src/main.js",
+    "start": "NODE_ENV=prod nodemon src/main.js",
     "dev": "NODE_ENV=dev nodemon src/main.js"
   },
   "repository": {
