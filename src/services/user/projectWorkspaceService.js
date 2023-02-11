@@ -33,6 +33,19 @@ class ProjectWorkspaceService {
       console.log(err);
     }
   }
+
+  // Add new Project workspace
+  async CreateProjectWorkspacePost(req, res) {
+    try {
+      const data = await repository.CreateProjectWorkspace(req.body, req.user);
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceService;

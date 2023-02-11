@@ -11,7 +11,11 @@ const service = new ProjectWorkspaceService();
 
 // Prject Space Name
 router.patch('/name', userAuthorization, service.ProjectWorkspaceNamePatch);
+
 // View project workspace
-router.get('/', userAuthorization, service.ProjectWorkspaceGet);
+router
+  .route('/')
+  .get(userAuthorization, service.ProjectWorkspaceGet)
+  .post(userAuthorization, service.CreateProjectWorkspacePost);
 
 module.exports = router;
