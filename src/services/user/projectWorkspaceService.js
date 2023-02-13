@@ -46,6 +46,25 @@ class ProjectWorkspaceService {
       console.log(err);
     }
   }
+
+  // Get a board details
+  async ProjectWorkspaceBoardGet(req, res) {
+    try {
+      const paramsId = req.params.id;
+      const userId = req.user;
+      const data = await repository.ProjectWorkspaceBoardDetails(
+        paramsId,
+        userId
+      );
+
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceService;

@@ -90,6 +90,29 @@ class ProjectWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Get a project board details
+  async ProjectWorkspaceBoardDetails(boardId, userId) {
+    try {
+      const userDetails = await userModel.findById(userId);
+      const boardDetails = await projectWorkspaceModel
+        .findById(boardId)
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      if (!userDetails) {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
+      return resDataFormat(200, 'Success', { userDetails, boardDetails });
+    } catch (err) {
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceRepository;
