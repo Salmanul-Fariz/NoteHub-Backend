@@ -1,7 +1,7 @@
 const express = require('express');
 
-const UserWorkspaceService = require('../../services/user/userWorkspaceService');
-const UserAuthorization = require('../middleware/userAuthorization');
+const UserWorkspaceService = require('../services/userWorkspaceService');
+const UserAuthorization = require('./middleware/userAuthorization');
 
 const router = express.Router();
 

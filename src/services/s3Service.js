@@ -1,5 +1,5 @@
-const { generateUploadUrl, deleteImageS3 } = require('../../utils/s3');
-const S3Repository = require('../../database/repository/user/s3Repository');
+const { generateUploadUrl, deleteImageS3 } = require('../utils/s3');
+const S3Repository = require('../database/repository/s3Repository');
 
 const repository = new S3Repository();
 

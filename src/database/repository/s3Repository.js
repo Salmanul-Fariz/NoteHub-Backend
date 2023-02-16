@@ -1,4 +1,4 @@
-const userWorkspacePageModal = require('../../models/userWorkspacePage');
+const userWorkspacePageModal = require('../models/userWorkspacePage');
 
 class S3Repository {
   // Check the conver image is exist

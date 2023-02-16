@@ -1,8 +1,8 @@
 // Require packages
 const express = require('express');
 
-const ProjectWorkspaceService = require('../../services/user/projectWorkspaceService');
-const userAuthorization = require('../middleware/userAuthorization');
+const ProjectWorkspaceService = require('../services/projectWorkspaceService');
+const userAuthorization = require('./middleware/userAuthorization');
 
 const router = express.Router();
 

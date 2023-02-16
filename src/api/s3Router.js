@@ -1,8 +1,8 @@
 // Require packages
 const express = require('express');
-const S3Service = require('../../services/user/s3Service');
+const S3Service = require('../services/s3Service');
 
-const UserAuthorization = require('../middleware/userAuthorization');
+const UserAuthorization = require('./middleware/userAuthorization');
 
 const router = express.Router();
 

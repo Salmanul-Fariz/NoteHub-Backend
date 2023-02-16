@@ -1,12 +1,12 @@
 const emailValidator = require('deep-email-validator');
 
-const AuthenticationRepository = require('../../database/repository/user/authRepository');
+const AuthenticationRepository = require('../database/repository/authRepository');
 const {
   nullValidation,
   userNameValidation,
   passwordValidation,
-} = require('../../utils/dataValidation');
-const { resDataFormat } = require('../../utils/formatData');
+} = require('../utils/dataValidation');
+const { resDataFormat } = require('../utils/formatData');
 
 const repository = new AuthenticationRepository();
 

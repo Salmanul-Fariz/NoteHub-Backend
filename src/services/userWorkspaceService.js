@@ -1,4 +1,4 @@
-const UserWorkspaceRepository = require('../../database/repository/user/userWorkspaceRepository');
+const UserWorkspaceRepository = require('../database/repository/userWorkspaceRepository');
 
 const repository = new UserWorkspaceRepository();
 

@@ -1,7 +1,7 @@
 const { default: mongoose } = require('mongoose');
-const { resDataFormat } = require('../../../utils/formatData');
-const projectWorkspaceModel = require('../../models/projectWorkspaceModel');
-const userModel = require('../../models/userModel');
+const { resDataFormat } = require('../../utils/formatData');
+const projectWorkspaceModel = require('../models/projectWorkspaceModel');
+const userModel = require('../models/userModel');
 
 class ProjectWorkspaceRepository {
   // Details of Project workspace

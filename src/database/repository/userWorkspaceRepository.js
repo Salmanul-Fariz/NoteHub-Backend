@@ -1,11 +1,11 @@
 const { mongoose } = require('mongoose');
 
-const { nullValidation } = require('../../../utils/dataValidation');
-const { resDataFormat } = require('../../../utils/formatData');
-const { deleteImageS3 } = require('../../../utils/s3');
-const userModel = require('../../models/userModel');
-const userWorkspacePageModal = require('../../models/userWorkspacePage');
-const Tree = require('../../../utils/workspaceTree');
+const { nullValidation } = require('../../utils/dataValidation');
+const { resDataFormat } = require('../../utils/formatData');
+const { deleteImageS3 } = require('../../utils/s3');
+const userModel = require('../models/userModel');
+const userWorkspacePageModal = require('../models/userWorkspacePage');
+const Tree = require('../../utils/workspaceTree');
 
 class UserWorkspaceRepository {
   // Details of workspace
