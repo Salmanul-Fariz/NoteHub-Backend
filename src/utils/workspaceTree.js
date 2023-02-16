@@ -6,6 +6,7 @@ module.exports = class WorkspaceTree {
     this.root = [];
     this.isBackTrack = false;
     this.isBackTrackValue = '';
+    this.S3UrlDelete = [];
   }
 
   // Create a new ObjectId
@@ -204,7 +205,20 @@ module.exports = class WorkspaceTree {
     });
 
     if (index !== -1) {
+      this._removeS3Url([root[index]]);
       root.splice(index, 1);
+    }
+  }
+
+  // Remove S3 url
+  _removeS3Url(root) {
+    for (const data of root) {
+      if (data.type === 'image') {
+        this.S3UrlDelete.push(data.content);
+      }
+      if (data.childNode.length > 0) {
+        this._removeS3Url(data.childNode);
+      }
     }
   }
 
@@ -221,6 +235,9 @@ module.exports = class WorkspaceTree {
     });
 
     if (index !== -1) {
+      if (root[index].type === 'image') {
+        this.S3UrlDelete.push(root[index].content);
+      }
       if (root[index].childNode.length > 0) {
         const child = root[index].childNode;
         let i = index;

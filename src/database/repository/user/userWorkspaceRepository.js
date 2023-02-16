@@ -2,6 +2,7 @@ const { mongoose } = require('mongoose');
 
 const { nullValidation } = require('../../../utils/dataValidation');
 const { resDataFormat } = require('../../../utils/formatData');
+const { deleteImageS3 } = require('../../../utils/s3');
 const userModel = require('../../models/userModel');
 const userWorkspacePageModal = require('../../models/userWorkspacePage');
 const Tree = require('../../../utils/workspaceTree');
@@ -287,10 +288,6 @@ class UserWorkspaceRepository {
   async UpdateWorkspaceSecAdd(data, query) {
     try {
       const { pageId, pageSectionId, pageContent, pageType } = data;
-      const isNull = nullValidation(pageSectionId, pageId, pageType);
-      if (isNull) {
-        return resDataFormat(400, 'failed', 'Data not exist');
-      }
 
       // Tree setup
       const tree = new Tree();
@@ -307,7 +304,16 @@ class UserWorkspaceRepository {
       };
 
       //  Check Whick insert
-      if (query === 'TopNodeInsert') {
+      if (query === 'InsertFirstNode') {
+        tree._insertFirstNode({
+          _id: tree._createNewId(),
+          type: 'text',
+          isToggle: false,
+          imgPosition: null,
+          content: null,
+          childNode: [],
+        });
+      } else if (query === 'TopNodeInsert') {
         if (pageType === 'image') {
           value.type = 'text';
           value.content = null;
@@ -326,8 +332,18 @@ class UserWorkspaceRepository {
         tree._findNodeAndChangeToParentNode(tree.root, pageSectionId);
       } else if (query === 'RemoveNodeWithChild') {
         tree._removeNodeWithChild(tree.root, pageSectionId);
+
+        // deleteImageS3
+        for (let i = 0; i < tree.S3UrlDelete.length; i++) {
+          const url = tree.S3UrlDelete[i].split('.com/');
+          await deleteImageS3(url[1]);
+        }
       } else if (query === 'RemoveNodeWithOutChild') {
         tree._removeNodeWithOutChild(tree.root, pageSectionId);
+
+        // deleteImageS3
+        const url = tree.S3UrlDelete[0].split('.com/');
+        await deleteImageS3(url[1]);
       }
       //  update the data in mongodbd
       await userWorkspacePageModal.updateOne(

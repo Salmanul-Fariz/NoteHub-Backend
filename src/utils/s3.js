@@ -21,7 +21,7 @@ const s3 = new aws.S3({
 });
 
 // generate upload URL
-module.exports = async (folder) => {
+exports.generateUploadUrl = async (folder) => {
   const rawBytes = await crypto.randomBytes(16);
   const imageName = rawBytes.toString('hex');
   const params = {
@@ -32,4 +32,13 @@ module.exports = async (folder) => {
 
   const uploadURL = await s3.getSignedUrlPromise('putObject', params);
   return uploadURL;
+};
+
+exports.deleteImageS3 = async (imageUrl) => {
+  const params = {
+    Bucket: bucketName,
+    Key: imageUrl,
+  };
+
+  await s3.deleteObject(params).promise();
 };

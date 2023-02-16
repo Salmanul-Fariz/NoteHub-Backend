@@ -13,7 +13,7 @@ const service = new ProjectWorkspaceService();
 router.patch('/name', userAuthorization, service.ProjectWorkspaceNamePatch);
 
 // Get a board details
-router.get('/board/:id', userAuthorization, service.ProjectWorkspaceBoardGet);
+router.get('/boards/:id', userAuthorization, service.ProjectWorkspaceBoardGet);
 
 // View project workspace
 router
