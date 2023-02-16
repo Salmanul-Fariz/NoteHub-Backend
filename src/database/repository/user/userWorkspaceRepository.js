@@ -453,7 +453,17 @@ class UserWorkspaceRepository {
     try {
       const { user, pageId } = data;
 
-      // // Checking name is already existet
+      // remove the image from  s3
+      const tree = new Tree();
+      const pageDetails = await userWorkspacePageModal.findById(pageId);
+      tree.root = pageDetails.page;
+      tree._removeS3Url(tree.root);
+      for (let i = 0; i < tree.S3UrlDelete.length; i++) {
+        const url = tree.S3UrlDelete[i].split('.com/');
+        await deleteImageS3(url[1]);
+      }
+
+      // Checking name is already existet
       const userPull = await userModel.updateOne(
         { _id: user },
         {
