@@ -41,6 +41,8 @@ class AuthenticationRepository {
         email: data.email,
         emailToken: crypto.randomBytes(64).toString('hex'),
         password: userPassword,
+        profilePhoto:
+          'https://notehub0.s3.ap-south-1.amazonaws.com/resorces/account-icon.png',
       });
 
       const token = await generateToken({ id: userCreated._id });
