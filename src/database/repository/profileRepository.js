@@ -1,3 +1,4 @@
+const { nullValidation } = require('../../utils/dataValidation');
 const { resDataFormat } = require('../../utils/formatData');
 const userModel = require('../models/userModel');
 
@@ -20,6 +21,25 @@ class ProfileRepository {
   async ProfileImageUpdate(userId, url) {
     try {
       await userModel.updateOne({ _id: userId }, { profilePhoto: url });
+
+      const userDetails = await userModel.findById(userId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Profile name Update
+  async ProfileNameUpdate(userId, value) {
+    try {
+      const isNull = nullValidation(value);
+
+      if (isNull) {
+        return resDataFormat(200, 'Null data', 'Data empty');
+      }
+
+      await userModel.updateOne({ _id: userId }, { fullName: value });
 
       const userDetails = await userModel.findById(userId);
 

@@ -33,6 +33,22 @@ class ProfileService {
       console.log(err);
     }
   }
+
+  // Profile name update
+  async ProfileNameUpdate(req, res) {
+    try {
+      const userId = req.user;
+      const { value } = req.body;
+      const data = await repository.ProfileNameUpdate(userId, value);
+
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProfileService;
