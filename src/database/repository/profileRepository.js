@@ -48,5 +48,28 @@ class ProfileRepository {
       console.log(err);
     }
   }
+
+  async ProfileUserNameUpdate(userId, value) {
+    try {
+      const isNull = nullValidation(value);
+
+      if (isNull) {
+        return resDataFormat(200, 'Null data', 'Data empty');
+      }
+
+      const isExist = await userModel.findOne({ userName: value });
+      if (isExist) {
+        return resDataFormat(200, 'Exist data', 'Data empty');
+      }
+
+      await userModel.updateOne({ _id: userId }, { userName: value });
+
+      const userDetails = await userModel.findById(userId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 module.exports = ProfileRepository;

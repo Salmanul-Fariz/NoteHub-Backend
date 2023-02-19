@@ -18,4 +18,7 @@ router.patch('/image', userAuthorization, service.ProfileImageUpdate);
 // Update the profile name
 router.patch('/name', userAuthorization, service.ProfileNameUpdate);
 
+// Update the profile User name
+router.patch('/username', userAuthorization, service.ProfileUserNameUpdate);
+
 module.exports = router;
