@@ -17,6 +17,22 @@ class ProfileService {
       console.log(err);
     }
   }
+
+  // Profile Image update
+  async ProfileImageUpdate(req, res) {
+    try {
+      const userId = req.user;
+      const { url } = req.body;
+      const data = await repository.ProfileImageUpdate(userId, url);
+
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProfileService;

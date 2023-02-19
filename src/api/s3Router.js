@@ -23,4 +23,7 @@ router.get(
   service.GenerateUrlPageSection
 );
 
+// update the profile img
+router.get('/profile', UserAuthorization, service.GenerateUrlProfileImg);
+
 module.exports = router;

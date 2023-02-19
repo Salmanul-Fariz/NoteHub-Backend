@@ -12,4 +12,7 @@ const service = new ProfileService();
 // Home Page
 router.get('/', userAuthorization, service.ProfileUserDetails);
 
+// Update the profile  image
+router.patch('/image', userAuthorization, service.ProfileImageUpdate);
+
 module.exports = router;

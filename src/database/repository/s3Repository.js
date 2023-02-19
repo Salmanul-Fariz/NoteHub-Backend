@@ -1,3 +1,4 @@
+const userModel = require('../models/userModel');
 const userWorkspacePageModal = require('../models/userWorkspacePage');
 
 class S3Repository {
@@ -10,6 +11,22 @@ class S3Repository {
       }
 
       return isExist.coverImg.url;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Check the profile image exist
+  async CheckProfileImageExist(userId) {
+    try {
+      const isExist = await userModel.findById(userId);
+
+      const url = isExist.profilePhoto.split('/');
+      if (url[2] === 'notehub0.s3.ap-south-1.amazonaws.com') {
+        return isExist.profilePhoto;
+      }
+
+      return false;
     } catch (err) {
       console.log(err);
     }

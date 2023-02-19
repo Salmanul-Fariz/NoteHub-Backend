@@ -40,6 +40,29 @@ class S3Service {
       console.log(err);
     }
   }
+
+  // GenerateUrl for Profile image update
+  async GenerateUrlProfileImg(req, res) {
+    try {
+      const userId = req.user;
+      const isExist = await repository.CheckProfileImageExist(userId);
+
+      if (isExist) {
+        const url = isExist.split('.com/');
+        await deleteImageS3(url[1]);
+      }
+
+      const folderName = 'user-profile';
+      const url = await generateUploadUrl(folderName);
+
+      res.status(200).json({
+        status: 'Success',
+        data: url,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = S3Service;

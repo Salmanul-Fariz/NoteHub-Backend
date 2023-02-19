@@ -15,5 +15,18 @@ class ProfileRepository {
       console.log(err);
     }
   }
+
+  // Profile Image Update
+  async ProfileImageUpdate(userId, url) {
+    try {
+      await userModel.updateOne({ _id: userId }, { profilePhoto: url });
+
+      const userDetails = await userModel.findById(userId);
+
+      return resDataFormat(200, 'Success', userDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 module.exports = ProfileRepository;
