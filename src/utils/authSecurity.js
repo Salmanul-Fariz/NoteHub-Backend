@@ -7,6 +7,8 @@ const {
   JWT_SECRET_KEY,
   NODEMAILER_PASSWORD,
   NODEMAILER_USERNAME,
+  NODEMAILER_HOST_PROD,
+  NODEMAILER_HOST_DEV,
 } = require('../config');
 
 // Utility functions
@@ -42,7 +44,7 @@ module.exports.verifyToken = async function (token) {
 };
 
 // Sending mail
-module.exports.emailVerification = async function (email, token, host) {
+module.exports.emailVerification = async function (email, token) {
   // create a node transport
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -51,6 +53,13 @@ module.exports.emailVerification = async function (email, token, host) {
       pass: NODEMAILER_PASSWORD,
     },
   });
+
+  let host;
+  if (process.env.NODE_ENV === 'dev') {
+    host = NODEMAILER_HOST_DEV;
+  } else {
+    host = NODEMAILER_HOST_PROD;
+  }
 
   // Sending mail options
   const mailOptions = {
