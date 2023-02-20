@@ -66,7 +66,7 @@ module.exports.emailVerification = async function (email, token) {
     from: 'NoteHub',
     to: email,
     subject: 'Email Verification',
-    html: `<h1>NoteHub</h1><br><h4> Click the link : </h4> <a href="http://${host}/api/auth/verify?token=${token}">verify email</a>`,
+    html: `<h1>NoteHub</h1><br><h4> Click the link : </h4> <a href="${host}/api/auth/verify?token=${token}">verify email</a>`,
   };
 
   // Send mail
