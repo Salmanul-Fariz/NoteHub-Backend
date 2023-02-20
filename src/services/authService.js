@@ -179,7 +179,7 @@ class AuthenticationService {
       // Check it is mail or username
       const isEmail = await emailValidator.validate(usernameOrEmail);
 
-      if (isEmail.valid) {
+      if (isEmail) {
         data = await repository.SigninUser('email', {
           usernameOrEmail,
           password,
