@@ -1,5 +1,4 @@
-const emailValidator = require('deep-email-validator');
-
+const emailValidator = require('email-validator');
 const AuthenticationRepository = require('../database/repository/authRepository');
 const {
   nullValidation,
@@ -50,7 +49,7 @@ class AuthenticationService {
 
         if (nullCheck) {
           data = resDataFormat(400, 'Field-Error', 'Please fill the fields');
-        } else if (!ckeckEmail.valid) {
+        } else if (!ckeckEmail) {
           // Email Validation
           data = resDataFormat(400, 'Email-Error', 'Please enter valid Mail');
         } else if (password.length < 6) {
