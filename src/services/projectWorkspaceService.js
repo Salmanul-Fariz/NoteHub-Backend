@@ -65,6 +65,19 @@ class ProjectWorkspaceService {
       console.log(err);
     }
   }
+
+  // Create new Project new roles
+  async CreateProjectRolePost(req, res) {
+    try {
+      const data = await repository.CreateProjectRole(req.body);
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceService;

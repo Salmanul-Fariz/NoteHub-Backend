@@ -49,7 +49,13 @@ const UserSchema = new Schema(
       userWorkspace: {
         name: { type: String, default: 'My Book' },
         icon: { type: String, default: 'closed_book' },
-        pages: [{ type: Schema.Types.ObjectId, default: null }],
+        pages: [
+          {
+            type: Schema.Types.ObjectId,
+            default: null,
+            ref: 'UserWorkspacePage',
+          },
+        ],
       },
     },
   },

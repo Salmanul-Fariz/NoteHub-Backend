@@ -9,6 +9,13 @@ const ProjectWorkspaceBoardSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    roles: [{ name: String, color: String }],
+    contributors: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: 'User' },
+        roles: { type: String },
+      },
+    ],
     boardName: {
       type: String,
     },
@@ -22,6 +29,6 @@ const ProjectWorkspaceBoardSchema = new Schema(
 );
 
 module.exports = mongoose.model(
-  'Project-workspace-board',
+  'ProjectWorkspaceBoard',
   ProjectWorkspaceBoardSchema
 );

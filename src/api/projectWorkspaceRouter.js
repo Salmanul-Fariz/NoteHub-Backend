@@ -9,6 +9,9 @@ const router = express.Router();
 // Creating New Object
 const service = new ProjectWorkspaceService();
 
+// Create a new role
+router.post('/roles', userAuthorization, service.CreateProjectRolePost);
+
 // Prject Space Name
 router.patch('/name', userAuthorization, service.ProjectWorkspaceNamePatch);
 

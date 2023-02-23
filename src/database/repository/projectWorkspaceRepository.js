@@ -113,6 +113,40 @@ class ProjectWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Create a project role
+  async CreateProjectRole(data) {
+    try {
+      const { color, projectId } = data;
+      let { roleName } = data;
+      roleName = roleName.toUpperCase();
+
+      // Checking new role is already existed
+      const role = await projectWorkspaceModel.findOne({
+        'roles.name': roleName,
+      });
+
+      if (role) {
+        return resDataFormat(200, 'Existed', 'board already exist');
+      }
+
+      await projectWorkspaceModel.updateOne(
+        { _id: projectId },
+        { $push: { roles: { name: roleName, color: color } } }
+      );
+
+      const boardDetail = await projectWorkspaceModel
+        .findById(projectId)
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      return resDataFormat(200, 'Success', boardDetail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceRepository;

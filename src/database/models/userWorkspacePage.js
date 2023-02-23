@@ -34,4 +34,4 @@ const UserWorkspacePageSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model('user workspace page', UserWorkspacePageSchema);
+module.exports = mongoose.model('UserWorkspacePage', UserWorkspacePageSchema);

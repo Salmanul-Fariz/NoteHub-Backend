@@ -71,5 +71,23 @@ class ProfileRepository {
       console.log(err);
     }
   }
+
+  // Get the Pages  Details in profile
+  async ProfilePagesDetails(userId) {
+    try {
+      const isExist = await userModel.findById(userId).populate({
+        path: 'workSpaces.userWorkspace.pages',
+        select: '_id title icon',
+      });
+
+      if (!isExist) {
+        return resDataFormat(400, 'No-exist', isExist);
+      }
+
+      return resDataFormat(200, 'Success', isExist);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 module.exports = ProfileRepository;
