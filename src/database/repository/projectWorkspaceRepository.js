@@ -15,6 +15,10 @@ class ProjectWorkspaceRepository {
         .populate({
           path: 'userId',
           select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
         });
 
       if (!userDetails) {
@@ -100,6 +104,10 @@ class ProjectWorkspaceRepository {
         .populate({
           path: 'userId',
           select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
         });
 
       if (!userDetails) {
@@ -139,6 +147,65 @@ class ProjectWorkspaceRepository {
         .findById(projectId)
         .populate({
           path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      return resDataFormat(200, 'Success', boardDetail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Create a project contributor
+  async CreateProjectContributor(data) {
+    try {
+      const { contributorName, projectId, roleName } = data;
+
+      const userExist = await userModel.findOne({
+        userName: contributorName,
+      });
+
+      if (!userExist) {
+        return resDataFormat(200, 'no-user-exist', 'user name not with user');
+      }
+
+      // Checking new role is already existed
+      const role = await projectWorkspaceModel.findOne({
+        'contributors.userId': userExist._id,
+      });
+
+      if (role) {
+        return resDataFormat(200, 'Existed', 'board already exist');
+      }
+
+      const isAdmin = await projectWorkspaceModel.findById(projectId);
+
+      if (isAdmin.userId.equals(userExist._id)) {
+        return resDataFormat(200, 'Admin', 'username is admins');
+      }
+
+      await projectWorkspaceModel.updateOne(
+        { _id: projectId },
+        { $push: { contributors: { userId: userExist._id, role: roleName } } }
+      );
+
+      await userModel.updateOne(
+        { _id: userExist._id },
+        { $push: { 'workSpaces.projectWorkspace.boards': projectId } }
+      );
+
+      const boardDetail = await projectWorkspaceModel
+        .findById(projectId)
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
           select: '_id userName email fullName profilePhoto',
         });
 

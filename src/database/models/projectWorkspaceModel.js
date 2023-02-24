@@ -13,7 +13,7 @@ const ProjectWorkspaceBoardSchema = new Schema(
     contributors: [
       {
         userId: { type: Schema.Types.ObjectId, ref: 'User' },
-        roles: { type: String },
+        role: { type: String },
       },
     ],
     boardName: {
