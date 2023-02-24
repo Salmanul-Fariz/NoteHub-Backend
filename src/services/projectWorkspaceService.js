@@ -91,6 +91,24 @@ class ProjectWorkspaceService {
       console.log(err);
     }
   }
+
+  // Remove Project contributor
+  async removeProjectContributorDelete(req, res) {
+    try {
+      const { projectId, userId } = req.query;
+
+      const data = await repository.RemoveProjectContributor({
+        projectId,
+        userId,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceService;

@@ -13,11 +13,10 @@ const service = new ProjectWorkspaceService();
 router.post('/roles', userAuthorization, service.CreateProjectRolePost);
 
 // Create a new Contributors
-router.post(
-  '/contributor',
-  userAuthorization,
-  service.CreateProjectContributorPost
-);
+router
+  .route('/contributor')
+  .post(userAuthorization, service.CreateProjectContributorPost)
+  .delete(userAuthorization, service.removeProjectContributorDelete);
 
 // Prject Space Name
 router.patch('/name', userAuthorization, service.ProjectWorkspaceNamePatch);

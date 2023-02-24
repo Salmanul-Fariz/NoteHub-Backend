@@ -214,6 +214,42 @@ class ProjectWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Remove a project contributor
+  async RemoveProjectContributor(data) {
+    try {
+      const { projectId, userId } = data;
+
+      await projectWorkspaceModel.updateOne(
+        { _id: projectId },
+        {
+          $pull: { contributors: { userId: userId } },
+        }
+      );
+
+      await userModel.updateOne(
+        { _id: userId },
+        {
+          $pull: { 'workSpaces.projectWorkspace.boards': projectId },
+        }
+      );
+
+      const boardDetail = await projectWorkspaceModel
+        .findById(projectId)
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      return resDataFormat(200, 'Success', boardDetail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceRepository;
