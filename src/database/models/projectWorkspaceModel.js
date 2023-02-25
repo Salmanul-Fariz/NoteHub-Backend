@@ -9,6 +9,29 @@ const ProjectWorkspaceBoardSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    tasks: {
+      todo: [
+        {
+          taskName: String,
+          roleName: String,
+          updateTime: { type: Date, default: Date.now() },
+        },
+      ],
+      progress: [
+        {
+          taskName: String,
+          roleName: String,
+          updateTime: { type: Date, default: Date.now() },
+        },
+      ],
+      completed: [
+        {
+          taskName: String,
+          roleName: String,
+          updateTime: { type: Date, default: Date.now() },
+        },
+      ],
+    },
     roles: [{ name: String, color: String }],
     contributors: [
       {

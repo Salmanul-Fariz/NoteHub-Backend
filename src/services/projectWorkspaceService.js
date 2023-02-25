@@ -127,6 +127,32 @@ class ProjectWorkspaceService {
       console.log(err);
     }
   }
+
+  // Create new Project Task
+  async CreateProjectTaskPost(req, res) {
+    try {
+      const data = await repository.CreateProjectTask(req.body);
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Update the  new Project Task list
+  async UpdateProjectTaskPatch(req, res) {
+    try {
+      const data = await repository.UpdateProjectTask(req.body);
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceService;

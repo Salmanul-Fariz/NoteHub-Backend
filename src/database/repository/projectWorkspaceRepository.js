@@ -298,6 +298,68 @@ class ProjectWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Create a project Task
+  async CreateProjectTask(data) {
+    try {
+      const { taskName, roleName, projectId } = data;
+
+      await projectWorkspaceModel.updateOne(
+        { _id: projectId },
+        { $push: { 'tasks.todo': { taskName: taskName, roleName: roleName } } }
+      );
+
+      const boardDetail = await projectWorkspaceModel
+        .findById(projectId)
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      return resDataFormat(200, 'Success', boardDetail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Update a project Task list
+  async UpdateProjectTask(data) {
+    try {
+      const { newTasks, projectId, editedTaskId, editedListName } = data;
+
+      await projectWorkspaceModel.updateOne(
+        { _id: projectId },
+        { tasks: newTasks }
+      );
+
+      await projectWorkspaceModel.updateOne(
+        {
+          _id: projectId,
+          [`tasks.${editedListName}`]: { $elemMatch: { _id: editedTaskId } },
+        },
+        { $set: { [`tasks.${editedListName}.$.updateTime`]: Date.now() } }
+      );
+
+      const boardDetail = await projectWorkspaceModel
+        .findById(projectId)
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      return resDataFormat(200, 'Success', boardDetail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceRepository;

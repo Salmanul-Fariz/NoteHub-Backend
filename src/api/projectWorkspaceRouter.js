@@ -15,6 +15,12 @@ router
   .post(userAuthorization, service.CreateProjectRolePost)
   .delete(userAuthorization, service.removeProjectRoleDelete);
 
+// Create and delete task
+router
+  .route('/tasks')
+  .post(userAuthorization, service.CreateProjectTaskPost)
+  .patch(userAuthorization, service.UpdateProjectTaskPatch);
+
 // Create and remove new Contributors
 router
   .route('/contributors')
