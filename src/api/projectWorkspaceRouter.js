@@ -19,7 +19,8 @@ router
 router
   .route('/tasks')
   .post(userAuthorization, service.CreateProjectTaskPost)
-  .patch(userAuthorization, service.UpdateProjectTaskPatch);
+  .patch(userAuthorization, service.UpdateProjectTaskPatch)
+  .delete(userAuthorization, service.RemoveProjectTaskDelete);
 
 // Create and remove new Contributors
 router

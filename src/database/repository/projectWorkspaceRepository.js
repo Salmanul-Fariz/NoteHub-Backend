@@ -360,6 +360,35 @@ class ProjectWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Remove a project Task list
+  async RemoveProjectTask(data) {
+    try {
+      const { taskId, taskListName, projectId } = data;
+
+      await projectWorkspaceModel.updateOne(
+        {
+          _id: projectId,
+        },
+        { $pull: { [`tasks.${taskListName}`]: { _id: taskId } } }
+      );
+
+      const boardDetail = await projectWorkspaceModel
+        .findById(projectId)
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      return resDataFormat(200, 'Success', boardDetail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceRepository;

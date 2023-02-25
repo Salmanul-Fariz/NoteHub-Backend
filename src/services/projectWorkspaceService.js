@@ -153,6 +153,24 @@ class ProjectWorkspaceService {
       console.log(err);
     }
   }
+
+  // delete the  new Project Task list
+  async RemoveProjectTaskDelete(req, res) {
+    try {
+      const { taskId, taskListName, projectId } = req.query;
+      const data = await repository.RemoveProjectTask({
+        taskId,
+        taskListName,
+        projectId,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceService;
