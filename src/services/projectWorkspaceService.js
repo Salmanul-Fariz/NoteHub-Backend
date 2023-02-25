@@ -109,6 +109,24 @@ class ProjectWorkspaceService {
       console.log(err);
     }
   }
+
+  // Remove Project roles
+  async removeProjectRoleDelete(req, res) {
+    try {
+      const { projectId, roleName } = req.query;
+
+      const data = await repository.RemoveProjectRole({
+        projectId,
+        roleName,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceService;

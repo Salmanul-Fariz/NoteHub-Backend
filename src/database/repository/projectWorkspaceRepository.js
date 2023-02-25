@@ -250,6 +250,54 @@ class ProjectWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Remove a project roles
+  async RemoveProjectRole(data) {
+    try {
+      const { projectId, roleName } = data;
+
+      const project = await projectWorkspaceModel.findById(projectId);
+
+      for (const element of project.contributors) {
+        if (element.role === roleName) {
+          await projectWorkspaceModel.updateOne(
+            { _id: projectId },
+            { $pull: { contributors: { _id: element._id } } }
+          );
+
+          await userModel.updateOne(
+            { _id: element.userId },
+            { $pull: { 'workSpaces.projectWorkspace.boards': projectId } }
+          );
+        }
+      }
+
+      await projectWorkspaceModel.updateOne(
+        { _id: projectId },
+        { $pull: { contributors: { role: roleName } } }
+      );
+
+      await projectWorkspaceModel.updateOne(
+        { _id: projectId },
+        { $pull: { roles: { name: roleName } } }
+      );
+
+      const boardDetail = await projectWorkspaceModel
+        .findById(projectId)
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      return resDataFormat(200, 'Success', boardDetail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceRepository;

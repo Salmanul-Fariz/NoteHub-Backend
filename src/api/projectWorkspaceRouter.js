@@ -9,12 +9,15 @@ const router = express.Router();
 // Creating New Object
 const service = new ProjectWorkspaceService();
 
-// Create a new role
-router.post('/roles', userAuthorization, service.CreateProjectRolePost);
-
-// Create a new Contributors
+// Create ande remove new role
 router
-  .route('/contributor')
+  .route('/roles')
+  .post(userAuthorization, service.CreateProjectRolePost)
+  .delete(userAuthorization, service.removeProjectRoleDelete);
+
+// Create and remove new Contributors
+router
+  .route('/contributors')
   .post(userAuthorization, service.CreateProjectContributorPost)
   .delete(userAuthorization, service.removeProjectContributorDelete);
 
