@@ -38,6 +38,7 @@ router.get('/boards/:id', userAuthorization, service.ProjectWorkspaceBoardGet);
 router
   .route('/')
   .get(userAuthorization, service.ProjectWorkspaceGet)
-  .post(userAuthorization, service.CreateProjectWorkspacePost);
+  .post(userAuthorization, service.CreateProjectWorkspacePost)
+  .delete(userAuthorization, service.RemoveProjectDelete);
 
 module.exports = router;

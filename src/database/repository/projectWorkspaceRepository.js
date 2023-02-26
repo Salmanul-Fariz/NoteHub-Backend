@@ -389,6 +389,46 @@ class ProjectWorkspaceRepository {
       console.log(err);
     }
   }
+
+  // Remove a project
+  async RemoveProject(data) {
+    try {
+      const { projectId, userId } = data;
+
+      const project = await projectWorkspaceModel.findById(projectId);
+
+      for (const element of project.contributors) {
+        await userModel.updateOne(
+          { _id: element.userId },
+          { $pull: { 'workSpaces.projectWorkspace.boards': projectId } }
+        );
+      }
+
+      await userModel.updateOne(
+        { _id: project.userId },
+        { $pull: { 'workSpaces.projectWorkspace.boards': projectId } }
+      );
+
+      await projectWorkspaceModel.deleteOne({ _id: projectId });
+
+      const boardDetails = await projectWorkspaceModel
+        .find({
+          userId: userId,
+        })
+        .populate({
+          path: 'userId',
+          select: '_id userName email fullName profilePhoto',
+        })
+        .populate({
+          path: 'contributors.userId',
+          select: '_id userName email fullName profilePhoto',
+        });
+
+      return resDataFormat(200, 'Success', boardDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceRepository;
