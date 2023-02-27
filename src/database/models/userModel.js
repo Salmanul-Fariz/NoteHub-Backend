@@ -44,7 +44,13 @@ const UserSchema = new Schema(
     workSpaces: {
       projectWorkspace: {
         name: { type: String, default: 'My Space' },
-        boards: [{ type: Schema.Types.ObjectId, default: null }],
+        boards: [
+          {
+            type: Schema.Types.ObjectId,
+            default: null,
+            ref: 'ProjectWorkspaceBoard',
+          },
+        ],
       },
       userWorkspace: {
         name: { type: String, default: 'My Book' },

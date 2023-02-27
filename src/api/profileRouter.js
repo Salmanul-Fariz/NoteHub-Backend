@@ -21,6 +21,9 @@ router.patch('/username', userAuthorization, service.ProfileUserNameUpdate);
 // Get the data of pages in profile
 router.get('/pages', userAuthorization, service.ProfilePagesDetails);
 
+// Get the data of Project in profile
+router.get('/project', userAuthorization, service.ProfileProjectDetails);
+
 // Home Page
 router.get('/', userAuthorization, service.ProfileUserDetails);
 

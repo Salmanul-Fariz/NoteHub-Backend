@@ -80,6 +80,21 @@ class ProfileService {
       console.log(err);
     }
   }
+
+  // Profile Project Details
+  async ProfileProjectDetails(req, res) {
+    try {
+      const userId = req.user;
+      const data = await repository.ProfileProjectDetails(userId);
+
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProfileService;

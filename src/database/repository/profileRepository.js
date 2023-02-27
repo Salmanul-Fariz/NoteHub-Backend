@@ -89,5 +89,23 @@ class ProfileRepository {
       console.log(err);
     }
   }
+
+  // Get the Project  Details in profile
+  async ProfileProjectDetails(userId) {
+    try {
+      const isExist = await userModel.findById(userId).populate({
+        path: 'workSpaces.projectWorkspace.boards',
+        select: '_id boardName projectType',
+      });
+
+      if (!isExist) {
+        return resDataFormat(400, 'No-exist', isExist);
+      }
+
+      return resDataFormat(200, 'Success', isExist);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 module.exports = ProfileRepository;
