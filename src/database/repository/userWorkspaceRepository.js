@@ -29,6 +29,26 @@ class UserWorkspaceRepository {
     }
   }
 
+  // Details of workspace page
+  async UserWorkspacePage(data) {
+    try {
+      const { id } = data;
+
+      const pageDetails = await userWorkspacePageModal.findById(id);
+
+      if (!pageDetails) {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
+
+      return resDataFormat(200, 'Success', pageDetails);
+    } catch (err) {
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
+      console.log(err);
+    }
+  }
+
   // Update User workspace icon
   async UpdateWorkspaceIcon(iconName, userId) {
     try {
@@ -342,8 +362,10 @@ class UserWorkspaceRepository {
         tree._removeNodeWithOutChild(tree.root, pageSectionId);
 
         // deleteImageS3
-        const url = tree.S3UrlDelete[0].split('.com/');
-        await deleteImageS3(url[1]);
+        if (tree.S3UrlDelete.length === 1) {
+          const url = tree.S3UrlDelete[0].split('.com/');
+          await deleteImageS3(url[1]);
+        }
       }
       //  update the data in mongodbd
       await userWorkspacePageModal.updateOne(
@@ -481,6 +503,26 @@ class UserWorkspaceRepository {
       if (err.name === 'CastError') {
         return resDataFormat(400, 'Fail', 'user not exist');
       }
+      console.log(err);
+    }
+  }
+
+  // Check user can acces to Page
+  async CheckUserAccessPage(data) {
+    try {
+      const { pageId, userId } = data;
+
+      const userDetails = await userModel.findById(userId);
+      let userAccess = false;
+
+      for (const element of userDetails.workSpaces.userWorkspace.pages) {
+        if (element.equals(pageId)) {
+          userAccess = true;
+        }
+      }
+
+      return resDataFormat(200, 'Success', userAccess);
+    } catch (err) {
       console.log(err);
     }
   }

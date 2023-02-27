@@ -8,18 +8,22 @@ class ProjectWorkspaceRepository {
   async ProjectWorkspace(userId) {
     try {
       const userDetails = await userModel.findById(userId);
-      const boardDetails = await projectWorkspaceModel
-        .find({
-          userId: userId,
-        })
-        .populate({
-          path: 'userId',
-          select: '_id userName email fullName profilePhoto',
-        })
-        .populate({
-          path: 'contributors.userId',
-          select: '_id userName email fullName profilePhoto',
-        });
+      const boardDetails = [];
+
+      for (const element of userDetails.workSpaces.projectWorkspace.boards) {
+        boardDetails.push(
+          await projectWorkspaceModel
+            .findById(element)
+            .populate({
+              path: 'userId',
+              select: '_id userName email fullName profilePhoto',
+            })
+            .populate({
+              path: 'contributors.userId',
+              select: '_id userName email fullName profilePhoto',
+            })
+        );
+      }
 
       if (!userDetails) {
         return resDataFormat(400, 'Fail', 'user not exist');
@@ -80,14 +84,22 @@ class ProjectWorkspaceRepository {
       }
 
       const userDetails = await userModel.findById(userId);
-      const boardDetails = await projectWorkspaceModel
-        .find({
-          userId: userId,
-        })
-        .populate({
-          path: 'userId',
-          select: '_id userName email fullName profilePhoto',
-        });
+      const boardDetails = [];
+
+      for (const element of userDetails.workSpaces.projectWorkspace.boards) {
+        boardDetails.push(
+          await projectWorkspaceModel
+            .findById(element)
+            .populate({
+              path: 'userId',
+              select: '_id userName email fullName profilePhoto',
+            })
+            .populate({
+              path: 'contributors.userId',
+              select: '_id userName email fullName profilePhoto',
+            })
+        );
+      }
 
       return resDataFormat(200, 'Success', { userDetails, boardDetails });
     } catch (err) {
@@ -425,6 +437,80 @@ class ProjectWorkspaceRepository {
         });
 
       return resDataFormat(200, 'Success', boardDetails);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Check user is Admin
+  async CheckUserProjectAdmin(data) {
+    try {
+      const { projectId, userId } = data;
+
+      const isAdmin = await projectWorkspaceModel.findById(projectId);
+
+      const accesData = isAdmin.userId.equals(userId);
+
+      return resDataFormat(200, 'Success', accesData);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Check Contributor Role Access in Project
+  async CheckContributorRoleAccess(data) {
+    try {
+      const { projectId, userId } = data;
+      const accesData = [];
+
+      const projectDetails = await projectWorkspaceModel.findById(projectId);
+
+      let userRole;
+      for (const element of projectDetails.contributors) {
+        if (element.userId.equals(userId)) {
+          userRole = element.role;
+        }
+      }
+
+      for (const element of projectDetails.tasks.todo) {
+        if (element.roleName === userRole) {
+          accesData.push(element._id);
+        }
+      }
+
+      for (const element of projectDetails.tasks.progress) {
+        if (element.roleName === userRole) {
+          accesData.push(element._id);
+        }
+      }
+
+      for (const element of projectDetails.tasks.completed) {
+        if (element.roleName === userRole) {
+          accesData.push(element._id);
+        }
+      }
+
+      return resDataFormat(200, 'Success', accesData);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Check user can acces to project
+  async CheckUserAccessProject(data) {
+    try {
+      const { projectId, userId } = data;
+
+      const userDetails = await userModel.findById(userId);
+      let userAccess = false;
+
+      for (const element of userDetails.workSpaces.projectWorkspace.boards) {
+        if (element.equals(projectId)) {
+          userAccess = true;
+        }
+      }
+
+      return resDataFormat(200, 'Success', userAccess);
     } catch (err) {
       console.log(err);
     }

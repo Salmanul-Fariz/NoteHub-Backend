@@ -186,6 +186,60 @@ class ProjectWorkspaceService {
       console.log(err);
     }
   }
+
+  // Check user is Admin
+  async CheckUserIsAdminProject(req, res) {
+    try {
+      const userId = req.user;
+      const { projectId } = req.query;
+      const data = await repository.CheckUserProjectAdmin({
+        projectId,
+        userId,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Check Contributor Role Access in Project
+  async CheckContributorRoleAccessProject(req, res) {
+    try {
+      const userId = req.user;
+      const { projectId } = req.query;
+      const data = await repository.CheckContributorRoleAccess({
+        projectId,
+        userId,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Check the user Can acces to project
+  async CheckUserAccessProject(req, res) {
+    try {
+      const userId = req.user;
+      const { projectId } = req.query;
+      const data = await repository.CheckUserAccessProject({
+        projectId,
+        userId,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = ProjectWorkspaceService;

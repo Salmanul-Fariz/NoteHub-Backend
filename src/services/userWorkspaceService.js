@@ -18,6 +18,21 @@ class UserWorkspaceService {
     }
   }
 
+  // Get the data of Work Space Page
+  async UserWorkspacePageGet(req, res) {
+    try {
+      const { id } = req.params;
+      const data = await repository.UserWorkspacePage({ id });
+
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   // Update the workspace icon
   async UserWorkspaceIconPatch(req, res) {
     try {
@@ -245,6 +260,24 @@ class UserWorkspaceService {
       const data = await repository.DeleteUserWorkspacePage({
         user: req.user,
         pageId,
+      });
+      res.status(data.statusCode).json({
+        status: data.status,
+        data: data.result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Check the user Can acces to page
+  async CheckUserAccessSpace(req, res) {
+    try {
+      const userId = req.user;
+      const { pageId } = req.query;
+      const data = await repository.CheckUserAccessPage({
+        pageId,
+        userId,
       });
       res.status(data.statusCode).json({
         status: data.status,

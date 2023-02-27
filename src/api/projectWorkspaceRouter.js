@@ -9,6 +9,18 @@ const router = express.Router();
 // Creating New Object
 const service = new ProjectWorkspaceService();
 
+// Check is admin
+router.get('/access/admin', userAuthorization, service.CheckUserIsAdminProject);
+
+// Check is contributor acces
+router.get(
+  '/access/contributors',
+  userAuthorization,
+  service.CheckContributorRoleAccessProject
+);
+
+router.get('/access', userAuthorization, service.CheckUserAccessProject);
+
 // Create ande remove new role
 router
   .route('/roles')

@@ -1,6 +1,7 @@
 const express = require('express');
 
 const UserWorkspaceService = require('../services/userWorkspaceService');
+const userAuthorization = require('./middleware/userAuthorization');
 const UserAuthorization = require('./middleware/userAuthorization');
 
 const router = express.Router();
@@ -8,7 +9,7 @@ const router = express.Router();
 // Creating New Object
 const service = new UserWorkspaceService();
 
-// Update workspace page type
+// router// Update workspace page type
 router.patch(
   '/page/type',
   UserAuthorization,
@@ -35,6 +36,9 @@ router
   .route('/page/content')
   .patch(UserAuthorization, service.UserWorkspaceSecContentPatch)
   .post(UserAuthorization, service.UserWorkspaceSecAddPatch);
+
+// check acces to user
+router.get('/access', userAuthorization, service.CheckUserAccessSpace);
 
 // update workspace icon
 router.patch('/icon', UserAuthorization, service.UserWorkspaceIconPatch);
@@ -78,5 +82,7 @@ router
   .get(UserAuthorization, service.UserWorkspaceGet)
   .post(UserAuthorization, service.UserWorkspacePost)
   .delete(UserAuthorization, service.UserWorkspacePageDelete);
+
+router.get('/:id', UserAuthorization, service.UserWorkspacePageGet);
 
 module.exports = router;
