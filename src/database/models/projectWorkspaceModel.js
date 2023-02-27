@@ -14,21 +14,21 @@ const ProjectWorkspaceBoardSchema = new Schema(
         {
           taskName: String,
           roleName: String,
-          updateTime: { type: Date, default: Date.now() },
+          updateTime: Date,
         },
       ],
       progress: [
         {
           taskName: String,
           roleName: String,
-          updateTime: { type: Date, default: Date.now() },
+          updateTime: Date,
         },
       ],
       completed: [
         {
           taskName: String,
           roleName: String,
-          updateTime: { type: Date, default: Date.now() },
+          updateTime: Date,
         },
       ],
     },

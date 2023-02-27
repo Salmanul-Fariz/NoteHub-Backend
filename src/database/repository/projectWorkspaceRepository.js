@@ -318,7 +318,15 @@ class ProjectWorkspaceRepository {
 
       await projectWorkspaceModel.updateOne(
         { _id: projectId },
-        { $push: { 'tasks.todo': { taskName: taskName, roleName: roleName } } }
+        {
+          $push: {
+            'tasks.todo': {
+              taskName: taskName,
+              roleName: roleName,
+              updateTime: Date.now(),
+            },
+          },
+        }
       );
 
       const boardDetail = await projectWorkspaceModel
