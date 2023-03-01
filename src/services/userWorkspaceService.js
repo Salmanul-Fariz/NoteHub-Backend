@@ -1,4 +1,5 @@
 const UserWorkspaceRepository = require('../database/repository/userWorkspaceRepository');
+const { resDataFormatError } = require('../utils/databaseErrResponse');
 
 const repository = new UserWorkspaceRepository();
 
@@ -9,12 +10,20 @@ class UserWorkspaceService {
       const userId = req.user;
       const data = await repository.UserWorkspace(userId);
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -24,12 +33,20 @@ class UserWorkspaceService {
       const { id } = req.params;
       const data = await repository.UserWorkspacePage({ id });
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -37,12 +54,21 @@ class UserWorkspaceService {
   async UserWorkspaceIconPatch(req, res) {
     try {
       const data = await repository.UpdateWorkspaceIcon(req.body, req.user);
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -50,12 +76,21 @@ class UserWorkspaceService {
   async UserWorkspaceNamePatch(req, res) {
     try {
       const data = await repository.UpdateWorkspaceName(req.body, req.user);
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -63,12 +98,21 @@ class UserWorkspaceService {
   async UserWorkspacePost(req, res) {
     try {
       const data = await repository.CreateUserWorkspace(req.user);
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -80,12 +124,21 @@ class UserWorkspaceService {
         pageId,
         iconName,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -97,12 +150,21 @@ class UserWorkspaceService {
         pageId,
         pageName,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -114,12 +176,21 @@ class UserWorkspaceService {
         pageId,
         imageUrl,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -131,12 +202,21 @@ class UserWorkspaceService {
         pageId,
         positionY,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -149,12 +229,21 @@ class UserWorkspaceService {
         pageSectionId,
         pageType,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -167,12 +256,21 @@ class UserWorkspaceService {
         pageSectionId,
         pageContent,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -190,12 +288,21 @@ class UserWorkspaceService {
         },
         type
       );
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -208,12 +315,21 @@ class UserWorkspaceService {
         pageSectionId,
         isToggle,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -226,12 +342,21 @@ class UserWorkspaceService {
         pageSectionId,
         imageUrl,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -244,12 +369,21 @@ class UserWorkspaceService {
         pageSectionId,
         imgSize,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -261,12 +395,21 @@ class UserWorkspaceService {
         user: req.user,
         pageId,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -279,12 +422,21 @@ class UserWorkspaceService {
         pageId,
         userId,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 }

@@ -21,14 +21,14 @@ class AuthenticationRepository {
       const userExit = await UserModel.findOne({ userName: data.userName });
 
       if (userExit) {
-        return resDataFormat(400, 'Name-Error', 'Enter the unique user name');
+        return resDataFormat(200, 'Name-Error', 'Enter the unique user name');
       }
 
       // Check email is exist
       const emailExit = await UserModel.findOne({ email: data.email });
 
       if (emailExit) {
-        return resDataFormat(400, 'Email-exist-Error', 'Email already exist');
+        return resDataFormat(200, 'Email-exist-Error', 'Email already exist');
       }
 
       // create salt
@@ -52,8 +52,9 @@ class AuthenticationRepository {
 
       return resDataFormat(200, 'Success', { userCreated, token });
     } catch (err) {
-      console.log(err);
-      return err;
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -66,8 +67,9 @@ class AuthenticationRepository {
 
       return false;
     } catch (err) {
-      console.log(err);
-      return err;
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -89,8 +91,9 @@ class AuthenticationRepository {
 
       return false;
     } catch (err) {
-      console.log(err);
-      return err;
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -121,8 +124,9 @@ class AuthenticationRepository {
         return 'NotVerify';
       });
     } catch (err) {
-      console.log(err);
-      return err;
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -144,7 +148,7 @@ class AuthenticationRepository {
 
       if (!isUserExist) {
         return resDataFormat(
-          400,
+          200,
           'Username-Or-Email',
           'Enter the Correct email or user name'
         );
@@ -157,7 +161,7 @@ class AuthenticationRepository {
 
       if (!isPassword) {
         return resDataFormat(
-          400,
+          200,
           'Password-Error',
           'Enter the Correct Password'
         );
@@ -167,7 +171,9 @@ class AuthenticationRepository {
 
       return resDataFormat(200, 'Success', { isUserExist, token });
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -176,7 +182,9 @@ class AuthenticationRepository {
     try {
       return await UserModel.findOne({ email: email });
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -205,7 +213,9 @@ class AuthenticationRepository {
 
       return resDataFormat(200, 'Success', { userCreated, token });
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -219,7 +229,9 @@ class AuthenticationRepository {
 
       return resDataFormat(200, 'Success', { user, token });
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 }

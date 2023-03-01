@@ -1,5 +1,6 @@
 const { generateUploadUrl, deleteImageS3 } = require('../utils/s3');
 const S3Repository = require('../database/repository/s3Repository');
+const { resDataFormatError } = require('../utils/databaseErrResponse');
 
 const repository = new S3Repository();
 
@@ -18,12 +19,20 @@ class S3Service {
       const folderName = 'user-workspace-cover';
       const url = await generateUploadUrl(folderName);
 
+      if (isExist === 'CastError') {
+        throw new Error(isExist);
+      }
+
       res.status(200).json({
         status: 'Success',
         data: url,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -37,7 +46,11 @@ class S3Service {
         data: url,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -60,7 +73,11 @@ class S3Service {
         data: url,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 }

@@ -7,13 +7,12 @@ class ProfileRepository {
   async ProfileUserDetails(userId) {
     try {
       const isExist = await userModel.findById(userId);
-      if (!isExist) {
-        return resDataFormat(400, 'No-exist', isExist);
-      }
 
       return resDataFormat(200, 'Success', isExist);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -26,7 +25,9 @@ class ProfileRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -45,7 +46,9 @@ class ProfileRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -68,7 +71,9 @@ class ProfileRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -86,7 +91,9 @@ class ProfileRepository {
 
       return resDataFormat(200, 'Success', isExist);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -104,7 +111,9 @@ class ProfileRepository {
 
       return resDataFormat(200, 'Success', isExist);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 }

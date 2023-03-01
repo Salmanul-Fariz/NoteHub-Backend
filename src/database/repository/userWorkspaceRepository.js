@@ -25,7 +25,6 @@ class UserWorkspaceRepository {
       if (err.name === 'CastError') {
         return resDataFormat(400, 'Fail', 'user not exist');
       }
-      console.log(err);
     }
   }
 
@@ -45,7 +44,6 @@ class UserWorkspaceRepository {
       if (err.name === 'CastError') {
         return resDataFormat(400, 'Fail', 'user not exist');
       }
-      console.log(err);
     }
   }
 
@@ -60,7 +58,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
     }
   }
 
@@ -75,7 +75,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
     }
   }
 
@@ -131,7 +133,6 @@ class UserWorkspaceRepository {
       if (err.name === 'CastError') {
         return resDataFormat(400, 'Fail', 'user not exist');
       }
-      console.log(err);
     }
   }
 
@@ -153,7 +154,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
     }
   }
 
@@ -196,7 +199,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
     }
   }
 
@@ -218,7 +223,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
     }
   }
 
@@ -240,7 +247,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return resDataFormat(400, 'Fail', 'user not exist');
+      }
     }
   }
 
@@ -250,7 +259,7 @@ class UserWorkspaceRepository {
       const { pageId, pageSectionId, pageType } = data;
       const isNull = nullValidation(pageSectionId, pageType, pageId);
       if (isNull) {
-        return resDataFormat(400, 'failed', 'Data not exist');
+        return resDataFormat(400, 'resCatchError', 'Data not exist');
       }
 
       // Tree setup
@@ -267,7 +276,9 @@ class UserWorkspaceRepository {
       const userDetails = await userWorkspacePageModal.findById(pageId);
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -277,7 +288,7 @@ class UserWorkspaceRepository {
       const { pageId, pageSectionId, pageContent } = data;
       const isNull = nullValidation(pageSectionId, pageId);
       if (isNull) {
-        return resDataFormat(400, 'failed', 'Data not exist');
+        return resDataFormat(400, 'resCatchError', 'Data not exist');
       }
 
       // Tree setup
@@ -300,7 +311,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -379,7 +392,9 @@ class UserWorkspaceRepository {
         id: value._id,
       });
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -389,7 +404,7 @@ class UserWorkspaceRepository {
       const { pageId, pageSectionId, isToggle } = data;
       const isNull = nullValidation(pageSectionId, pageId);
       if (isNull) {
-        return resDataFormat(400, 'failed', 'Data not exist');
+        return resDataFormat(400, 'resCatchError', 'Data not exist');
       }
 
       // Tree setup
@@ -412,7 +427,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -422,7 +439,7 @@ class UserWorkspaceRepository {
       const { pageId, pageSectionId, imageUrl } = data;
       const isNull = nullValidation(pageSectionId, imageUrl, pageId);
       if (isNull) {
-        return resDataFormat(400, 'failed', 'Data not exist');
+        return resDataFormat(400, 'resCatchError', 'Data not exist');
       }
 
       // Tree setup
@@ -439,7 +456,9 @@ class UserWorkspaceRepository {
       const userDetails = await userWorkspacePageModal.findById(pageId);
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -449,7 +468,7 @@ class UserWorkspaceRepository {
       const { pageId, pageSectionId, imgSize } = data;
       const isNull = nullValidation(pageSectionId, imgSize, pageId);
       if (isNull) {
-        return resDataFormat(400, 'failed', 'Data not exist');
+        return resDataFormat(400, 'resCatchError', 'Data not exist');
       }
 
       // Tree setup
@@ -466,7 +485,9 @@ class UserWorkspaceRepository {
       const userDetails = await userWorkspacePageModal.findById(pageId);
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -503,7 +524,6 @@ class UserWorkspaceRepository {
       if (err.name === 'CastError') {
         return resDataFormat(400, 'Fail', 'user not exist');
       }
-      console.log(err);
     }
   }
 
@@ -523,7 +543,9 @@ class UserWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userAccess);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 }

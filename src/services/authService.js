@@ -1,5 +1,6 @@
 const emailValidator = require('email-validator');
 const AuthenticationRepository = require('../database/repository/authRepository');
+const { resDataFormatError } = require('../utils/databaseErrResponse');
 const {
   nullValidation,
   userNameValidation,
@@ -19,7 +20,9 @@ class AuthenticationService {
         message: 'View Signup Page',
       });
     } catch (err) {
-      console.log(err);
+      if (err) {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -35,11 +38,15 @@ class AuthenticationService {
           req.query.userNameExist
         );
 
-        data = resDataFormat(
-          isUsername ? 400 : 200,
-          isUsername ? 'Fail' : 'Success',
-          isUsername
-        );
+        if (isUsername === 'CastError') {
+          throw new Error(isUsername);
+        } else {
+          data = resDataFormat(
+            200,
+            isUsername ? 'Fail' : 'Success',
+            isUsername
+          );
+        }
       } else {
         // Check the values are null
         const nullCheck = nullValidation(userName, email, password);
@@ -48,34 +55,34 @@ class AuthenticationService {
         const correctPattern = passwordValidation(password);
 
         if (nullCheck) {
-          data = resDataFormat(400, 'Field-Error', 'Please fill the fields');
+          data = resDataFormat(200, 'Field-Error', 'Please fill the fields');
         } else if (!ckeckEmail) {
           // Email Validation
-          data = resDataFormat(400, 'Email-Error', 'Please enter valid Mail');
+          data = resDataFormat(200, 'Email-Error', 'Please enter valid Mail');
         } else if (password.length < 6) {
           // Password Validation
           data = resDataFormat(
-            400,
+            200,
             'Password-Error',
             'Please enter Strong Password'
           );
         } else if (!isValid) {
           data = resDataFormat(
-            400,
+            200,
             'Username-no-Valid',
             'Please enter Valid user ame'
           );
         } else if (userName.length < 4) {
           // User name Length checking
           data = resDataFormat(
-            400,
+            200,
             'UserName-Error',
             'Please enter strong user name'
           );
         } else if (!correctPattern) {
           // Password pattern
           data = resDataFormat(
-            400,
+            200,
             'Password-Error',
             'Must contain UpperCase,LowerCase,number,special character'
           );
@@ -84,6 +91,10 @@ class AuthenticationService {
             { userName, email, password },
             req.headers.host
           );
+
+          if (data === 'CastError') {
+            throw new Error(data);
+          }
         }
       }
 
@@ -92,7 +103,11 @@ class AuthenticationService {
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -103,18 +118,26 @@ class AuthenticationService {
 
       const isVerify = await repository.EmailVerification(token);
 
+      if (isVerify === 'CastError') {
+        throw new Error(isVerify);
+      }
+
       const data = resDataFormat(
         isVerify ? 200 : 408,
         isVerify ? 'Success' : 'Failed',
         isVerify ? 'verifyed' : 'Time expired for a request'
       );
 
-      return res.status(data.statusCode).json({
+      res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -125,12 +148,20 @@ class AuthenticationService {
 
       const data = resDataFormat(200, 'Success', isVerified);
 
-      return res.status(data.statusCode).json({
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
+      res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -142,7 +173,9 @@ class AuthenticationService {
         message: 'View Signin Page',
       });
     } catch (err) {
-      console.log(err);
+      if (err) {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -155,13 +188,13 @@ class AuthenticationService {
       // Check the values are null
       const nullCheck = nullValidation(usernameOrEmail, password);
       if (nullCheck) {
-        data = resDataFormat(400, 'Field-Error', 'Please fill the fields');
+        data = resDataFormat(200, 'Field-Error', 'Please fill the fields');
       }
 
       // Password Validation
       if (password.length < 6) {
         data = resDataFormat(
-          400,
+          200,
           'Password-Error',
           'Please enter Strong Password'
         );
@@ -170,7 +203,7 @@ class AuthenticationService {
       // User name Length checking
       if (usernameOrEmail.length < 4) {
         data = resDataFormat(
-          400,
+          200,
           'Username-Or-Email',
           'Please enter strong user name'
         );
@@ -189,6 +222,10 @@ class AuthenticationService {
           usernameOrEmail,
           password,
         });
+
+        if (data === 'CastError') {
+          throw new Error(data);
+        }
       }
 
       res.status(data.statusCode).json({
@@ -196,7 +233,11 @@ class AuthenticationService {
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -217,10 +258,14 @@ class AuthenticationService {
         data = await repository.CheckUserDetails(email);
       } else {
         data = resDataFormat(
-          400,
+          200,
           'Email-Error',
-          'emailis already Used for another accound'
+          'email is already Used for another accound'
         );
+      }
+
+      if (data === 'CastError') {
+        throw new Error(data);
       }
 
       res.status(data.statusCode).json({
@@ -228,7 +273,11 @@ class AuthenticationService {
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 }

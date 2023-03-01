@@ -1,4 +1,5 @@
 const ProfileRepository = require('../database/repository/profileRepository');
+const { resDataFormatError } = require('../utils/databaseErrResponse');
 
 const repository = new ProfileRepository();
 
@@ -9,12 +10,20 @@ class ProfileService {
       const userId = req.user;
       const data = await repository.ProfileUserDetails(userId);
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -25,12 +34,20 @@ class ProfileService {
       const { url } = req.body;
       const data = await repository.ProfileImageUpdate(userId, url);
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -41,12 +58,20 @@ class ProfileService {
       const { value } = req.body;
       const data = await repository.ProfileNameUpdate(userId, value);
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -57,12 +82,20 @@ class ProfileService {
       const { value } = req.body;
       const data = await repository.ProfileUserNameUpdate(userId, value);
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -72,12 +105,20 @@ class ProfileService {
       const userId = req.user;
       const data = await repository.ProfilePagesDetails(userId);
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -87,12 +128,20 @@ class ProfileService {
       const userId = req.user;
       const data = await repository.ProfileProjectDetails(userId);
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 const ProjectWorkspaceRepository = require('../database/repository/projectWorkspaceRepository');
+const { resDataFormatError } = require('../utils/databaseErrResponse');
 
 const repository = new ProjectWorkspaceRepository();
 
@@ -9,12 +10,20 @@ class ProjectWorkspaceService {
       const userId = req.user;
       const data = await repository.ProjectWorkspace(userId);
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -25,12 +34,21 @@ class ProjectWorkspaceService {
         req.body,
         req.user
       );
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -38,12 +56,21 @@ class ProjectWorkspaceService {
   async CreateProjectWorkspacePost(req, res) {
     try {
       const data = await repository.CreateProjectWorkspace(req.body, req.user);
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -57,12 +84,20 @@ class ProjectWorkspaceService {
         userId
       );
 
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -70,12 +105,21 @@ class ProjectWorkspaceService {
   async CreateProjectRolePost(req, res) {
     try {
       const data = await repository.CreateProjectRole(req.body);
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -83,12 +127,21 @@ class ProjectWorkspaceService {
   async CreateProjectContributorPost(req, res) {
     try {
       const data = await repository.CreateProjectContributor(req.body);
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -101,12 +154,21 @@ class ProjectWorkspaceService {
         projectId,
         userId,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -119,12 +181,21 @@ class ProjectWorkspaceService {
         projectId,
         roleName,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -132,12 +203,21 @@ class ProjectWorkspaceService {
   async CreateProjectTaskPost(req, res) {
     try {
       const data = await repository.CreateProjectTask(req.body);
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -145,12 +225,21 @@ class ProjectWorkspaceService {
   async UpdateProjectTaskPatch(req, res) {
     try {
       const data = await repository.UpdateProjectTask(req.body);
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -163,12 +252,21 @@ class ProjectWorkspaceService {
         taskListName,
         projectId,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -178,12 +276,21 @@ class ProjectWorkspaceService {
       const userId = req.user;
       const { projectId } = req.query;
       const data = await repository.RemoveProject({ projectId, userId });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -196,12 +303,21 @@ class ProjectWorkspaceService {
         projectId,
         userId,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -214,12 +330,21 @@ class ProjectWorkspaceService {
         projectId,
         userId,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 
@@ -232,12 +357,21 @@ class ProjectWorkspaceService {
         projectId,
         userId,
       });
+
+      if (data === 'CastError') {
+        throw new Error(data);
+      }
+
       res.status(data.statusCode).json({
         status: data.status,
         data: data.result,
       });
     } catch (err) {
-      console.log(err);
+      if (err.message === 'CastError') {
+        resDataFormatError(res, 400, 'CastError', 'Error in database!');
+      } else {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 }

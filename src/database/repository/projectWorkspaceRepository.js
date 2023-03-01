@@ -31,9 +31,8 @@ class ProjectWorkspaceRepository {
       return resDataFormat(200, 'Success', { userDetails, boardDetails });
     } catch (err) {
       if (err.name === 'CastError') {
-        return resDataFormat(400, 'Fail', 'user not exist');
+        return err.name;
       }
-      console.log(err);
     }
   }
 
@@ -48,7 +47,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -103,7 +104,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', { userDetails, boardDetails });
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -128,9 +131,8 @@ class ProjectWorkspaceRepository {
       return resDataFormat(200, 'Success', { userDetails, boardDetails });
     } catch (err) {
       if (err.name === 'CastError') {
-        return resDataFormat(400, 'Fail', 'user not exist');
+        return err.name;
       }
-      console.log(err);
     }
   }
 
@@ -168,7 +170,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', boardDetail);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -223,7 +227,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', boardDetail);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -259,7 +265,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', boardDetail);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -307,7 +315,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', boardDetail);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -342,7 +352,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', boardDetail);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -377,7 +389,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', boardDetail);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -406,7 +420,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', boardDetail);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -446,7 +462,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', boardDetails);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -461,7 +479,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', accesData);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -500,7 +520,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', accesData);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -520,7 +542,9 @@ class ProjectWorkspaceRepository {
 
       return resDataFormat(200, 'Success', userAccess);
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 }

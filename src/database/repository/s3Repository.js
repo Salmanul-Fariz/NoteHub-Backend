@@ -12,7 +12,9 @@ class S3Repository {
 
       return isExist.coverImg.url;
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 
@@ -28,7 +30,9 @@ class S3Repository {
 
       return false;
     } catch (err) {
-      console.log(err);
+      if (err.name === 'CastError') {
+        return err.name;
+      }
     }
   }
 }

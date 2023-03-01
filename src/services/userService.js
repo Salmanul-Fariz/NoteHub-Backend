@@ -1,3 +1,5 @@
+const { resDataFormatError } = require('../utils/databaseErrResponse');
+
 class UserService {
   // Home page
   async HomePage(req, res) {
@@ -6,7 +8,9 @@ class UserService {
         status: 'Success',
       });
     } catch (err) {
-      console.log(err);
+      if (err) {
+        resDataFormatError(res, 400, 'resCatchError', 'Error in catch block!');
+      }
     }
   }
 }
